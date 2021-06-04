@@ -1,4 +1,62 @@
-<link rel="stylesheet" type="text/css" href="css/login.css">
+<?php
+session_start();
+if(isset($_SESSION['your_name'])){
+    //dia chi của show luu tru o day
+    header("Location:");
+}
+if($_SERVER['REQUEST_METHOD']==='POST')
+{
+    //dia chi cua file trong dao
+    include "../dao/database.php";
+    $db = new Database();
+    if(isset($_POST['signin'])){
+        if(isset($_POST['your_name'])&&isset($_POST['your_pass']))
+        {
+            if($_POST['your_name']===""||$_POST['your_pass']===""){
+                Message::ShowMessage("username or password not filled yet");
+            }else{
+                if(ctype_alnum($_POST['your_name']) && ctype_alnum($_POST['your_pass'])){
+                    $query="select * from ADMIN where USER=?";
+                    $param=[
+                        $_POST['your_name']
+                    ];
+                    $stmt=$db->EditDataParam($query, $param);
+                    $row=$stmt->fetch(PDO::FETCH_ASSOC);
+                    if(empty($row)){
+                        Message::ShowMessage("wrong username or password");
+                    }else{
+                        if($row['PASS']===$_POST['your_pass']){
+                            $_SESSION['your_name']=$_POST['your_name'];
+                            $_SESSION['login']="Login";
+                            //dia chi cua show luu tru de o day
+                            header("Location:index.php");
+                        }else{
+                            Message::ShowMessage("wrong username or password");
+                        }
+                    }
+
+                }else{
+                    Message::ShowMessage("special letters are not allowed");
+                }
+            }
+        }
+    }
+    if(isset($_POST['Register'])){
+        $_SESSION['Register']="Register";
+        //dia chi cua page register
+        header("Location:register.php");
+    }
+    $db->CloseConn();
+}
+?>
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="css/login.css">
+</head>
+<body>
 <div class="main">
     <!-- Sing in  Form -->
     <section class="sign-in">
@@ -44,3 +102,6 @@
 </div>
 <script src="vendor/jquery/jquery.min.js"></script>
 <script src="js/main.js"></script>
+</body>
+</html>
+
