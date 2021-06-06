@@ -2,3 +2,9 @@ Body {
     font-family: Calibri, Helvetica, sans-serif;
     background-color: darkblue;
 }
+#banner {
+    background-image: url("../images/welcomebackground.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
