@@ -1,14 +1,16 @@
 <?php
 include "../validate/Message.php";
 class database{
-//chỉnh database ở đây dbname=
+//DB Modify here
    private $dns ="mysql:host=localhost; dbname=kidzone; charset=utf8";
-   //chỉnh username ở đây
-   private $username="leemongyan";
-   //chỉnh password ở đây
-   private $password="09051997";
+
+//You can changes username and password here to start source:
+   private $username="NoxiaPhat";
+   private $password="Luuphat01";
+
    private $pdo;
    private $stmt;
+
    public function __construct()
    {
       try{
@@ -17,10 +19,12 @@ class database{
          Message::ShowMessage($e->getMessage());
       }
    }
+
    public function CloseConn()
    {
       $this->pdo=null;
    }
+
    public function EditData($query)
    {
       try{
@@ -31,6 +35,7 @@ class database{
          Message::ShowMessage($e->getMessage());
       }
    }
+
    public function EditDataParam($query, $param)
    {
       try{

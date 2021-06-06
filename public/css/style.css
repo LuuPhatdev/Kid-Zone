@@ -1,4 +1,5 @@
-Body {
-    font-family: Calibri, Helvetica, sans-serif;
-    background-color: darkblue;
+body{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
