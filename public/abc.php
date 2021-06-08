@@ -1,22 +1,23 @@
 <?php include "../template/header.php";
     include "../dao/database.php";
     $db = new database();
-    $query = "select f.file_name, sr.name from file f join storage sr on f.id_e=sr.id_e where f.file_type=1";
+    $query = "select f.file_name, sr.name from file f join storage sr on f.id_e =sr.id_e where f.file_type=1 and id_c=2 ";
     $stmt = $db->EditData($query);
 ?>
 <link rel="stylesheet" type="text/css" href="./css/abc.css"/>
 <div class="container">
     <div class="grid-container">
         <?php
+            $i = 0;
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 ?>
-
                 <div class="grid-container">
                     <div class="grid-item" onclick="play()"><?php echo $row['name']; ?>
                         <audio id="audio" src="voice/<?php echo $row['file_name']; ?>" type="audio/wav"></audio>
                     </div>
                 </div>
                 <?php
+                if ($i % 4 == 0) $i++;
             }
             $db->CloseConn();
         ?>
