@@ -1,5 +1,6 @@
 var audio = new Audio("soundfile.wav");
 
-document.onclick = function() {
+document.onclick = function () {
     audio.play();
 }
+

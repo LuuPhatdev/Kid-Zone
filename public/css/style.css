@@ -1,5 +1,10 @@
-body{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+Body {
+    font-family: Calibri, Helvetica, sans-serif;
+    background-color: darkblue;
+}
+.banner {
+    background-image: url("../images/welcomebackground.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
