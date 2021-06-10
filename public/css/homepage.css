@@ -1,0 +1,50 @@
+#banner {
+    background-image: url("../images/welcomebackground.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    font-family: 'Bubblegum Sans';
+}
+#welcome {
+    margin-left: 250px;
+}
+#kidzone {
+    margin-right: 250px;
+}
+.container-fluid {
+    height: 600px;
+    font-family: 'Bubblegum Sans';
+}
+#ABC {
+    background-color: #deedf0;
+}
+#CALCULATOR {
+    background-color: #346751;
+}
+#VEGETABLES {
+    background-color: #ac66cc;
+}
+#VEHICLES {
+    background-color: #2940d3;
+}
+.img-fluid {
+    width: 450px;
+    height: 450px;
+    transition: width 1s, height 1s;
+    float: left;
+}
+.description {
+    float: left;
+    padding-left: 100px;
+}
+img:hover {
+    width: 500px;
+    height: 500px;
+}
+.button {
+    transition: width 1s, height 1s;
+    opacity: 0.6;
+}
+a:hover {
+    opacity: 1;
+}

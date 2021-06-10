@@ -3,10 +3,10 @@
     $db = new database();
     $query = "select id_e from storage order by rand() limit 3";
     $result = $db->EditData($query);
-    $query = "select F.FILE_NAME "
-        . "from STORAGE S inner join FILE F on S.ID_E = F.ID_E "
-        . "inner join CATEGORY C on S.ID_C = C.ID_C "
-        . "where C.CATEGORY_NAME like 'vehicle' and S.ID_E = ? and F.FILE_TYPE = 0 "
+    $query = "select F.file_name "
+        . "from storage S inner join file F on S.id_e = F.id_e "
+        . "inner join category C on S.id_c = C.id_c "
+        . "where C.category_name like 'vehicle' and S.id_e = ? and F.file_type = 0 "
         . "limit 1";
     $vehicles = array();
 
@@ -18,7 +18,7 @@
     }
 
     $correct = rand(0, 2);
-    $query = "select NAME from storage where id_e = ?";
+    $query = "select name from storage where id_e = ?";
     $param = [
         $vehicles[$correct][0]
     ];
