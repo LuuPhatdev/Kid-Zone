@@ -27,4 +27,11 @@ function input(element) {
     } else {
         document.getElementById('submit').setAttribute('data-bs-target', '#incorrect');
     }
-};
+}
+function resetInput() {
+    x = -1;
+    y = -1;
+    document.getElementById("img-x").src = "";
+    document.getElementById("img-y").src = "";
+    document.getElementById('submit').setAttribute('data-bs-target', '#incorrect');
+}

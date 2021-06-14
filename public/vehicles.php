@@ -1,7 +1,11 @@
 <?php
     include "../dao/database.php";
     $db = new database();
-    $query = "select id_e from storage order by rand() limit 3";
+    $query = "select s.id_e "
+        . "from storage s inner join category c on s.id_c = c.id_c "
+        . "where c.category_name like 'vehicle' "
+        . "order by rand() "
+        . "limit 3";
     $result = $db->EditData($query);
     $query = "select F.file_name "
         . "from storage S inner join file F on S.id_e = F.id_e "
@@ -26,17 +30,19 @@
     $row3 = $result3->fetch(PDO::FETCH_NUM);
     include "../template/header.php";
 ?>
-
-<div class="container text-warning">
-    <h3>which picture is <?= $row3[0] ?> ?</h3>
-    <div class="row">
-        <?php
-            for ($i = 0; $i < 3; $i++) {
-                echo "<div class='col'><img src='images/" . $vehicles[$i][1] . "' style='width:100px;height:100px;object-fit: cover;' data-bs-toggle='modal' data-bs-target=" . (($i == $correct) ? '#correct' : '#incorrect') . "></div>";
-            }
-        ?>
+<link rel="stylesheet" type="text/css" href="css/vehicles.css">
+<section class="vehicle">
+    <div class="container text-warning">
+        <h3>which picture is <?= $row3[0] ?> ?</h3>
+        <div class="row">
+            <?php
+                for ($i = 0; $i < 3; $i++) {
+                    echo "<div class='col'><img src='images/" . $vehicles[$i][1] . "' style='width:100px;height:100px;object-fit: cover;' data-bs-toggle='modal' data-bs-target=" . (($i == $correct) ? '#correct' : '#incorrect') . "></div>";
+                }
+            ?>
+        </div>
     </div>
-</div>
+</section>
 
 <div class="modal fade" id="correct" tabindex="-1" aria-labelledby="correct" aria-hidden="true">
     <div class="modal-dialog">

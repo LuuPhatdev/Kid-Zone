@@ -36,9 +36,9 @@
     }
     include "../template/header.php";
 ?>
-<link rel="stylesheet" type="text/css" href="css/calculation.css"/>
-<div class="container">
-    <section class="calculation">
+<link rel="stylesheet" type="text/css" href="css/calculation.css?v=3"/>
+<section class="calculation">
+    <div class="container">
         <?php
             for ($i = 0; $i < 10; $i++) {
                 if (isset($cal["number-" . $i])) {
@@ -47,23 +47,23 @@
                     die("<script language='JavaScript'>alert('ERROR: INSUFFICIENT PICTURES FROM DATABASE')</script>");
                 }
             }
-    ?>
+        ?>
         <div class="result">
-        <img src="images/<?= $cal["number-" . $a] ?>" style="width: 150px" id="first-number" alt="<?= $a ?>">
+            <img src="images/<?= $cal["number-" . $a] ?>" style="width: 150px" id="first-number" alt="<?= $a ?>">
             <img src="images/<?= ($z) ? $cal["plus-sign"] : $cal["minus-sign"] ?>" style="width:100px"
                  id="plus-or-minus"
                  alt="<?= $z ?>">
             <img src="images/<?= $cal["number-" . $b] ?>" style="width: 150px" id="second-number" alt="<?= $b ?>">
-            <img src="images/<?= $cal["equal-sign"] ?>" style="width: 150px">
+            <img src="images/<?= $cal["equal-sign"] ?>" style="width: 100px">
             <img id="img-x" src="" style="width: 150px">
             <img id="img-y" src="" style="width: 150px">
         </div>
-    </section>
-</div>
+        <div class="d-flex justify-content-center">
+            <button id="submit" class="btn btn-info" data-bs-toggle='modal' data-bs-target="#incorrect">SUBMIT</button>
+        </div>
+    </div>
+</section>
 
-<div class="d-flex justify-content-center">
-    <button id="submit" class="btn btn-info" data-bs-toggle='modal' data-bs-target="#incorrect">SUBMIT</button>
-</div>
 
 <div class="modal fade" id="correct" tabindex="-1" aria-labelledby="correct" aria-hidden="true">
     <div class="modal-dialog">

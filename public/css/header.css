@@ -1,0 +1,43 @@
+.navbar-bar {
+    position: fixed;
+    width: 100%;
+    overflow: hidden;
+    vertical-align: bottom;
+}
+
+.menu {
+    padding-top: 10px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.menu li a {
+    font-family: Prompt;
+}
+
+.menu .nav-item .nav-link {
+    color: #68C2E8;
+}
+
+.menu .nav-item .nav-link:hover {
+    text-decoration: underline;
+}
+
+.user {
+    display: inline-flex;
+}
+
+.user-name {
+    display: flex;
+    justify-items: center;
+    justify-content: center;
+    align-items: center;
+
+    margin: 0 5px;
+    width: 100%;
+}
+
+.login-button .btn {
+    background-color: #08a0e9;
+    border: none;
+}
