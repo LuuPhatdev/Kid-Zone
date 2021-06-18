@@ -30,14 +30,14 @@
     $row3 = $result3->fetch(PDO::FETCH_NUM);
     include "../template/header.php";
 ?>
-<link rel="stylesheet" type="text/css" href="css/vehicles.css">
+<link rel="stylesheet" type="text/css" href="css/vehicles.css?v=1">
 <section class="vehicle">
     <div class="container text-warning">
         <h3>which picture is <?= $row3[0] ?> ?</h3>
         <div class="row">
             <?php
                 for ($i = 0; $i < 3; $i++) {
-                    echo "<div class='col'><img src='images/" . $vehicles[$i][1] . "' style='width:100px;height:100px;object-fit: cover;' data-bs-toggle='modal' data-bs-target=" . (($i == $correct) ? '#correct' : '#incorrect') . "></div>";
+                    echo "<div class='col'><img src='images/" . $vehicles[$i][1] . "' style='width:100%;object-fit: cover;' data-bs-toggle='modal' data-bs-target=" . (($i == $correct) ? '#correct' : '#incorrect') . "></div>";
                 }
             ?>
         </div>
@@ -52,7 +52,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <img src="../../../../xampp/htdocs/Kid-Zone/public/images/star.jpg" alt="star" style="width:100px">
+                <img src="images/star.jpg" alt="star" style="width:100px">
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

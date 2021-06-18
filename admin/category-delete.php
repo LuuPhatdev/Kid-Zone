@@ -1,8 +1,8 @@
 <?php
-//session_start();
-//if(!isset($_SESSION['your_name'])){
-//    header("Location: login.php");
-//}
+session_start();
+if(!isset($_SESSION['user'])){
+    header("Location:login.php");
+}
 if (isset($_GET['id'])) {
     include "../dao/database.php";
     $db = new Database();

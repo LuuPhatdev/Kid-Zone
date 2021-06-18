@@ -1,6 +1,6 @@
 <?php
     session_start();
-    if (isset($_SESSION['username'])) {
+    if (isset($_SESSION['user'])) {
         header("Location:");
     }
 
@@ -25,10 +25,10 @@
                             Message::ShowMessage("wrong username or password");
                         } else {
                             if ($row['password'] === $_POST['password']) {
-                                $_SESSION['username'] = $_POST['user_name'];
+                                $_SESSION['user'] = $_POST['user_name'];
                                 $_SESSION['login'] = "log_in";
                                 //dia chi cua show luu tru de o day
-                                header("Location:index.php");
+                                header("Location: category-show.php");
                             } else {
                                 Message::ShowMessage("wrong username or password");
                             }

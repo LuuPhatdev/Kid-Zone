@@ -1,50 +1,37 @@
-#banner {
-    background-image: url("../images/welcomebackground.jpg");
+.homepage{
+    padding-top: 79px;
+}
+.introduct-banner{
+    background-image: url("../images/introduction.jpg");
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    font-family: 'Bubblegum Sans';
+    height: 424px;
+    z-index: 999;
 }
-#welcome {
-    margin-left: 250px;
+
+.category-course{
+    padding: 50px 0 50px 0;
 }
-#kidzone {
-    margin-right: 250px;
+
+.zoom:hover{
+    transform: scale(1.1);
+    transition: transform .2s;
+    text-decoration: underline;
+    cursor: pointer;
 }
-.container-fluid {
-    height: 600px;
-    font-family: 'Bubblegum Sans';
+
+h4:after{
+    text-decoration: underline;
 }
-#ABC {
-    background-color: #deedf0;
+
+.title{
+    text-decoration: none;
+    color: #68C2E8;
+    font-family: Prompt;
 }
-#CALCULATOR {
-    background-color: #346751;
-}
-#VEGETABLES {
-    background-color: #ac66cc;
-}
-#VEHICLES {
-    background-color: #2940d3;
-}
-.img-fluid {
-    width: 450px;
-    height: 450px;
-    transition: width 1s, height 1s;
-    float: left;
-}
-.description {
-    float: left;
-    padding-left: 100px;
-}
-img:hover {
-    width: 500px;
-    height: 500px;
-}
-.button {
-    transition: width 1s, height 1s;
-    opacity: 0.6;
-}
-a:hover {
-    opacity: 1;
+
+.title :hover{
+    color: #222222;
+    text-decoration-color: #222222;
 }

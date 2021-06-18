@@ -107,10 +107,13 @@
 
 }
 
+.social-media> ul{
+    margin: 0;
+}
+
 .social-media ul li {
     display: inline-flex;
     margin: 0 2px;
-
 }
 
 .social-media ul li :hover{

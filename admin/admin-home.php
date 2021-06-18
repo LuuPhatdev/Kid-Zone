@@ -1,12 +1,11 @@
 <?php
-//session_start();
-//if(!isset($_SESSION['your_name'])){
-//    header("Location: login.php");
-//}
-if(isset($_GET['logout'])){
-    unset($_SESSION['your_name']);
-    unset($_SESSION['login']);
-    header("Location: login.php");
+session_start();
+if(!isset($_SESSION['user'])){
+    header("Location:login.php");
+}
+if($_SERVER['REQUEST_METHOD']==='GET'&&isset($_GET['logout'])){
+    unset($_SESSION['user']);
+    header("Location:login.php");
 }
 ?>
 <!doctype html>
@@ -38,10 +37,10 @@ if(isset($_GET['logout'])){
         <a href="category-show.php" class="btn btn-success" role="button">Categories</a>
     </div>
     <div class="col-sm-4">
-        <a href="#" class="btn btn-success" role="button">Storage</a>
+        <a href="show-storage.php" href="#" class="btn btn-success" role="button">Storage</a>
     </div>
     <div class="col-sm-4">
-        <a href="#" class="btn btn-success" role="button">Files</a>
+        <a href="file-show.php" href="#" class="btn btn-success" role="button">Files</a>
     </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>

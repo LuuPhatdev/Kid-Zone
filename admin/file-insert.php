@@ -1,0 +1,223 @@
+<?php
+session_start();
+if(!isset($_SESSION['user'])){
+    header("Location: login.php");
+}else {
+    include "../dao/database.php";
+    $db = new database();
+    $query="select * from storage";
+    $stor=$db->EditData($query);
+    if($_SERVER['REQUEST_METHOD']==='POST'){
+        $true=1;
+        while($true==1) {
+            $query = "select file_name from file";
+            $stmt = $db->EditData($query);
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                if ($row['file_name'] === $_FILES['filename']['name']) {
+                    $true--;
+                    Message::ShowMessage("there is alrady an exists name");
+                    break;
+                }
+            }
+            if ($true < 1) {
+                break;
+            }
+            $finfo = finfo_open(FILEINFO_MIME_TYPE);
+            $type = finfo_file($finfo, $_FILES['filename']['tmp_name']);
+            $picallowed = ['image/jpeg', 'image/png', 'image/jpg'];
+            $soundallowed = 'audio/x-wav';
+            $picval = 0;
+            $souval = 0;
+            foreach ($picallowed as $value) {
+                if ($value === $type) {
+                    $picval++;
+                }
+            }
+            if ($soundallowed === $type) {
+                $souval++;
+            }
+            if($picval > 0 || $souval > 0){
+                if ($picval > 0) {
+                    $filetype = 0;
+                    move_uploaded_file($_FILES['filename']['tmp_name'], 'images/' . $_FILES['filename']['name']);
+                } else {
+                    $filetype = 1;
+                    move_uploaded_file($_FILES['filename']['tmp_name'], 'voice/' . $_FILES['filename']['name']);
+                }
+            }else{
+                Message::ShowMessage("only jpeg, png, jpg(image) or wav(sound) allowed");
+                $true--;
+                break;
+            }
+            if($_POST['storage']==='select'){
+                Message::ShowMessage("please select category and/or storage to insert into");
+                $true--;
+                break;
+            }else{
+                $query="insert into file(id_e, file_name, file_type) values (?, ?, ?)";
+                $param=[
+                    $_POST['storage'],
+                    $_FILES['filename']['name'],
+                    $filetype
+                ];
+                $db->EditDataParam($query,$param);
+                $true++;
+                header("Location: file-show.php");
+                finfo_close($finfo);
+            }
+        }
+    }
+    $db->CloseConn();
+}
+?>
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>File Insert</title>
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+    <!--     Fonts and icons     -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <!-- CSS Files -->
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/now-ui-dashboard.css?v=1.5.0" rel="stylesheet" />
+    <link href="css/admin.css" rel="stylesheet" />
+</head>
+<body class="">
+<div class="wrapper ">
+    <div class="sidebar" data-color="red">
+        <div class="logo">
+            <a href="category-show.php" class="simple-text logo-normal">
+                KIDS-ZONE
+            </a>
+        </div>
+        <div class="sidebar-wrapper" id="sidebar-wrapper">
+            <ul class="nav">
+
+                <li>
+                    <a href="category-show.php">
+                        <i class="now-ui-icons objects_diamond"></i>
+                        <p>Categories</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="show-storage.php">
+                        <i class="now-ui-icons shopping_box"></i>
+                        <p>Storages</p>
+                    </a>
+                </li>
+                <li class="active ">
+                    <a href="file-show.php">
+                        <i class="now-ui-icons files_single-copy-04"></i>
+                        <p>Files</p>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="main-panel" id="main-panel">
+        <!-- Navbar -->
+        <nav class="navbar navbar-transparent  bg-primary  navbar-absolute">
+            <div class="container-fluid">
+                <div class="navbar-wrapper">
+                    <a class="navbar-brand" href="#pablo">Files</a>
+                </div>
+                <div class=" justify-content-end" id="navigation">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#pablo">
+                                <i class="now-ui-icons sport_user-run"></i>
+                                <p>
+                                    <span class="d-md-block">Log out</span>
+                                </p>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- End Navbar -->
+        <div class="panel-header panel-header-sm">
+        </div>
+        <div class="content">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="title">Fill in the Form</h5>
+                        </div>
+                        <div class="card-body">
+                            <form action="#" method="POST" enctype="multipart/form-data">
+
+                                <div class="mb-3 row">
+                                    <label for="filename" class="col-sm-3 col-form-label">File's Name: </label>
+                                    <div class="col-sm-9">
+                                        <input type="text" name="oldfilename" id="filename" class="form-control" readonly><br/>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3 row">
+                                    <label for="filename">Upload: </label>
+                                    <div class="col-sm-9">
+                                        <input type="file" name="filename" id="upload" required>
+                                    </div>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <label for="storage">Storage: </label>
+                                    <select name="storage" style="height: 40px; width: 140px">
+                                        <option value="select" selected disabled>Select</option>
+                                        <?php
+                                        while($rowstor=$stor->fetch(PDO::FETCH_ASSOC)){
+                                            ?>
+                                            <option value="<?php echo $rowstor['id_e'];?>"><?php echo $rowstor['name'];?></option>
+                                            <?php
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                                <div class="d-flex justify-content-center">
+                                    <input name="Add" type="submit" class="btn btn-success" value="Add New File">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer class="footer">
+            <div class=" container-fluid ">
+                <div class="copyright" id="copyright">
+                    &copy; <script>
+                        document.getElementById('copyright').appendChild(document.createTextNode(new Date().getFullYear()))
+                    </script>, KIDS-ZONE
+                </div>
+            </div>
+        </footer>
+    </div>
+</div>
+<script>
+    document.getElementById('upload').onchange = uploadOnChange;
+
+    function uploadOnChange() {
+        var filename = this.value;
+        var lastIndex = filename.lastIndexOf("\\");
+        if (lastIndex >= 0) {
+            filename = filename.substring(lastIndex + 1);
+        }
+        document.getElementById('filename').value = filename;
+    }
+</script>
+<!--   Core JS Files   -->
+<script src="js/core/jquery.min.js"></script>
+<script src="js/core/popper.min.js"></script>
+<script src="js/core/bootstrap.min.js"></script>
+<script src="js/plugins/perfect-scrollbar.jquery.min.js"></script>
+<!-- Chart JS -->
+<script src="js/plugins/chartjs.min.js"></script>
+<!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
+<script src="js/now-ui-dashboard.min.js?v=1.5.0" type="text/javascript"></script>
+<script src="js/admin.js"></script>
+</body>
+</html>

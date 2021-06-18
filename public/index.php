@@ -1,35 +1,67 @@
 <?php
     include "../dao/database.php";
-    $db= new database();
-    $query="select sr.name, f.file_name, sr.description from file f join storage sr on sr.id_e = f.id_e where sr.id_c=1";
-    $stmt=$db->EditData($query);
+    $db = new database();
+    $query = "select sr.name, f.file_name, sr.description from file f join storage sr on sr.id_e = f.id_e where sr.id_c=1";
+    $stmt = $db->EditData($query);
     $db->CloseConn();
 ?>
 <?php include "../template/header.php"; ?>
-<link rel="stylesheet" type="text/css" href="css/homepage.css?v=1">
+<link rel="stylesheet" type="text/css" href="css/homepage.css?v=3">
 <link href='https://fonts.googleapis.com/css?family=Bubblegum Sans' rel='stylesheet'>
-<div id="banner" class="position-relative p-5">
-    <h1 class="position-absolute top-0 start-0" id="welcome">WELCOME</h1><br/>
-    <h1 class="position-absolute top-50 start-50 translate-middle">TO</h1><br/>
-    <h1 class="position-absolute bottom-0 end-0" id="kidzone">KIDZONE!</h1>
-</div>
-<?php
-    while($row=$stmt->fetch(PDO::FETCH_ASSOC)){
-        $lowcase=strtolower($row['name']);
-        ?>
-        <div class="container-fluid" id="<?php echo $row['name'];?>">
-            <h1 class="text-center"><?php echo $row['name'];?></h1><br/>
-            <!--            file hinh lay tu db-->
-            <img src="images/<?php echo $row['file_name'];?>" class="img-fluid" onmouseover="imageEnlarge();" onmouseleave="imageReset();">
-            <div class="text-center description">
-                <!--                description lay tu db-->
-                <p><?php echo $row['description'];?></p>
-                <a class="btn btn-primary button" href="<?php echo "$lowcase.php";?>" role="button">Let Go!</a>
+<section class="homepage">
+    <div class="introduct-banner"></div>
+</section>
+<section class="course category-course">
+    <div class="container">
+        <div class="row ">
+            <div class="col zoom">
+                <div class="card">
+                    <a href="abc.php">
+                        <img src="images/alphabet-course.jpg" alt="Avatar" style="width:100%">
+                    </a>
+                    <div class="container">
+                        <a class="title" href="abc.php"><b>ABC</b></a>
+                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col zoom">
+                <div class="card">
+                    <a href="calculation.php">
+                        <img src="images/math-course.jpg" alt="Avatar" style="width:100%">
+                    </a>
+                    <div class="container">
+                        <a class="title" href="calculation.php"><b>Math</b></a>
+                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col zoom">
+                <div class="card">
+                    <a href="vegetables.php">
+                        <img src="images/vegetable-course.jpg" alt="Avatar" style="width:100%">
+                    </a>
+                    <div class="container">
+                        <a class="title" href="vegetables.php"><b>Vegetables</b></a>
+                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col zoom">
+                <div class="card">
+                    <a href="vehicles.php">
+                        <img src="images/vehicles-course.jpg" alt="Avatar" style="width:100%">
+                    </a>
+                    <div class="container">
+                        <a class="title" href="vehicles.php"><b>Vehicles</b></a>
+                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                    </div>
+                </div>
             </div>
         </div>
-        <?php
-    }
-?>
+    </div>
+</section>
+
 <?php include "../template/footer.php"; ?>
 
 
