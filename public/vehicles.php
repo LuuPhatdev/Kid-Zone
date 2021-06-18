@@ -30,7 +30,7 @@
     $row3 = $result3->fetch(PDO::FETCH_NUM);
     include "../template/header.php";
 ?>
-<link rel="stylesheet" type="text/css" href="css/vehicles.css?v=1">
+<link rel="stylesheet" type="text/css" href="css/vehicles.css?v=2">
 <section class="vehicle">
     <div class="container text-warning">
         <h3>which picture is <?= $row3[0] ?> ?</h3>
@@ -42,41 +42,48 @@
             ?>
         </div>
     </div>
+
+    <div class="modal fade" id="correct" tabindex="-1" aria-labelledby="correct" aria-hidden="true">
+        <div class="modal-dialog" style="padding-top:200px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Congratulation</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <img src="images/carfun.png" width="200px" id="star"><br/>
+                    <h1>CORRECT!</h1>
+                </div>
+                <div class="modal-footer position-relative" style="height: 50px">
+                    <button type="button" class="btn btn-success position-absolute bottom-0 end-0"
+                            data-bs-dismiss="modal" id="homepage" onclick="window.location.reload();">Next
+                    </button>
+                    <button type="button" class="btn btn-primary position-absolute bottom-0 start-0"
+                            data-bs-dismiss="modal">close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="incorrect" tabindex="-1" aria-labelledby="incorrect" aria-hidden="true">
+        <div class="modal-dialog" style="padding-top: 200px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Incorrect...</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <img src="images/carsad.png" width="200px" ><br/>
+                    <h1>INCORRECT!</h1>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Try again</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
 
-<div class="modal fade" id="correct" tabindex="-1" aria-labelledby="correct" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Correct</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <img src="images/star.jpg" alt="star" style="width:100px">
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" onclick="location.reload();">Try Again</button>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="modal fade" id="incorrect" tabindex="-1" aria-labelledby="incorrect" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Incorrect</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                TRY AGAIN PLEASE
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" onclick="location.reload();">Try Again</button>
-            </div>
-        </div>
-    </div>
-</div>
+
 <?php include "../template/footer.php";
 ?>

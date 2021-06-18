@@ -1,7 +1,3 @@
-drop table file;
-drop table storage;
-drop table category;
-
 create table admin
 (
     id        int auto_increment
@@ -73,15 +69,15 @@ values (1, 'truck', 'truck', 1);
 
 # Vehicle file
 insert into file (id_e, file_name, file_type, active)
-values (1, 'airplane.jpg', 0, 1);
+values (1, 'airplane.png', 0, 1);
 insert into file (id_e, file_name, file_type, active)
-values (2, 'bike.jpg', 0, 1);
+values (2, 'bike.png', 0, 1);
 insert into file (id_e, file_name, file_type, active)
-values (3, 'car.jpg', 0, 1);
+values (3, 'car.png', 0, 1);
 insert into file (id_e, file_name, file_type, active)
-values (4, 'scooter.jpg', 0, 1);
+values (4, 'scooter.png', 0, 1);
 insert into file (id_e, file_name, file_type, active)
-values (5, 'train.jpg', 0, 1);
+values (5, 'train.png', 0, 1);
 insert into file (id_e, file_name, file_type, active)
 values (6, 'truck.png', 0, 1);
 
@@ -294,28 +290,28 @@ values('vegetables','pics for vegetables', 1);
 
 #vegetables storage
 insert into storage(id_c, name, description, active)
-values ('4', 'carrot', 'pic for carrot', 1);
+values ('5', 'carrot', 'pic for carrot', 1);
 insert into storage(id_c, name, description, active)
-values ('4', 'corn', 'pic for corn', 1);
+values ('5', 'corn', 'pic for corn', 1);
 insert into storage(id_c, name, description, active)
-values ('4', 'cucumber', 'pic for cucumber', 1);
+values ('5', 'cucumber', 'pic for cucumber', 1);
 insert into storage(id_c, name, description, active)
-values ('4', 'eggplant', 'pic for ggplant', 1);
+values ('5', 'eggplant', 'pic for ggplant', 1);
 insert into storage(id_c, name, description, active)
-values ('4', 'green-onion', 'pic for green-onion', 1);
+values ('5', 'green-onion', 'pic for green-onion', 1);
 insert into storage(id_c, name, description, active)
-values ('4', 'lettuce', 'pic for lettuce', 1);
+values ('5', 'lettuce', 'pic for lettuce', 1);
 
 #vegetables file
 insert into file(id_e, file_name, file_type, active)
-values ('50', 'carrot.jpg', '0', 1);
+values ('50', 'carrot.png', '0', 1);
 insert into file(id_e, file_name, file_type, active)
-values ('51', 'corn.jpg', '0', 1);
+values ('51', 'corn.png', '0', 1);
 insert into file(id_e, file_name, file_type, active)
-values ('52', 'cucumber.jpg', '0', 1);
+values ('52', 'cucumber.png', '0', 1);
 insert into file(id_e, file_name, file_type, active)
-values ('53', 'eggplant.jpg', '0', 1);
+values ('53', 'eggplant.png', '0', 1);
 insert into file(id_e, file_name, file_type, active)
-values ('54', 'green-onion.jpg', '0', 1);
+values ('54', 'green-onion.png', '0', 1);
 insert into file(id_e, file_name, file_type, active)
-values ('55', 'lettuce.jpg', '0', 1);
+values ('55', 'lettuce.png', '0', 1);

@@ -33,7 +33,7 @@
     shuffle($question);
     $db->CloseConn();
 ?>
-<link type="text/css" rel="stylesheet" href="css/vegetables.css"/>
+<link type="text/css" rel="stylesheet" href="css/vegetables.css?v=1"/>
 <section class="bg">
     <div class="container">
         <form method="post">
@@ -60,21 +60,22 @@
             <!--correct modal-->
             <div class="modal fade" id="correctmodal" tabindex="-1" aria-labelledby="exampleModalLabel"
                  data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
-                <div class="modal-dialog">
+                <div class="modal-dialog" style="padding-top:150px">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h3>Congratulation</h3>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <img src="images/star.jpg" width="200px" id="star"><br/>
+                            <img src="images/happy.png" width="200px" id="star"><br/>
                             <h1>CORRECT!</h1>
                         </div>
                         <div class="modal-footer position-relative" style="height: 50px">
                             <button type="button" class="btn btn-success position-absolute bottom-0 end-0"
-                                    data-bs-dismiss="modal" id="homepage" onclick="window.location.reload();">Try again?
+                                    data-bs-dismiss="modal" id="homepage" onclick="window.location.reload();">Next
                             </button>
                             <button type="button" class="btn btn-primary position-absolute bottom-0 start-0"
-                                    onclick="window.location.href='index.php';">Homepage
+                                    data-bs-dismiss="modal">close
                             </button>
                         </div>
                     </div>
@@ -84,20 +85,19 @@
             <div class="modal fade" id="uncorrectmodal" tabindex="-1" aria-labelledby="exampleModalLabel"
                  aria-hidden="true"
                  data-bs-backdrop="static" data-bs-keyboard="false">
-                <div class="modal-dialog">
+                <div class="modal-dialog" style="padding-top:200px">
                     <div class="modal-content">
                         <div class="modal-header">
+                            <h3>Sorry...</h3>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <img src="img/brokenstar.jpg" width="200px" id="brokenstar"><br/>
-                            <h1>UNCORRECT...</h1>
+                            <img src="images/sad.png" width="200px" id="brokenstar"><br/>
+                            <h1>INCORRECT!</h1>
                         </div>
                         <div class="modal-footer position-relative" style="height: 50px">
-                            <button type="button" class="btn btn-secondary position-absolute bottom-0 start-0"
-                                    data-bs-dismiss="modal">Try again?
-                            </button>
                             <button type="button" class="btn btn-primary position-absolute bottom-0 end-0"
-                                    onclick="window.location.href='index.php';">Homepage
+                                    data-bs-dismiss="modal">Try again
                             </button>
                         </div>
                     </div>
@@ -111,6 +111,4 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
         crossorigin="anonymous"></script>
-
-<?php include "../template/footer.php";
-?>
+<?php include "../template/footer.php"; ?>
