@@ -27,8 +27,8 @@ while (0==0) {
     if ($temp == 0) {
         break;
     }
-    $query = "insert into category (CATEGORY_NAME, DESCRIPTION)"
-        . "values (?,?)";
+    $query = "insert into category (category_name, description, active)"
+        . "values (?,?,1)";
     $params = [
         $_POST['name'],
         $_POST['desc']
@@ -95,12 +95,12 @@ while (0==0) {
         <nav class="navbar navbar-transparent  bg-primary  navbar-absolute">
             <div class="container-fluid">
                 <div class="navbar-wrapper">
-                    <a class="navbar-brand" href="#pablo">Categories</a>
+                    <p>User: <b><?=$_SESSION['user']?></b></p>
                 </div>
                 <div class=" justify-content-end" id="navigation">
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link" href="#pablo">
+                            <a class="nav-link" href="logout.php?logout=1">
                                 <i class="now-ui-icons sport_user-run"></i>
                                 <p>
                                     <span class="d-md-block">Log out</span>

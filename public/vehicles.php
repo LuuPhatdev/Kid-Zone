@@ -1,16 +1,17 @@
 <?php
     include "../dao/database.php";
     $db = new database();
-    $query = "select s.id_e "
+    $query = "select distinct s.id_e "
         . "from storage s inner join category c on s.id_c = c.id_c "
-        . "where c.category_name like 'vehicle' "
+        . "inner join file f on s.id_e = f.id_e "
+        . "where c.category_name like 'vehicle' and f.active = 1 "
         . "order by rand() "
         . "limit 3";
     $result = $db->EditData($query);
     $query = "select F.file_name "
         . "from storage S inner join file F on S.id_e = F.id_e "
         . "inner join category C on S.id_c = C.id_c "
-        . "where C.category_name like 'vehicle' and S.id_e = ? and F.file_type = 0 "
+        . "where C.category_name like 'vehicle' and S.id_e = ? and F.file_type = 0 and f.active = 1 "
         . "limit 1";
     $vehicles = array();
 
@@ -22,6 +23,7 @@
     }
 
     $correct = rand(0, 2);
+    $buttons = ['A', 'B', 'C'];
     $query = "select name from storage where id_e = ?";
     $param = [
         $vehicles[$correct][0]
@@ -33,11 +35,18 @@
 <link rel="stylesheet" type="text/css" href="css/vehicles.css?v=2">
 <section class="vehicle">
     <div class="container text-warning">
-        <h3>which picture is <?= $row3[0] ?> ?</h3>
+        <div class="dia-box">
+
+            <img src="images/pink-dialogue.png" alt="" class="dia-pic">
+            <div class="dia-text">
+                <h3>which picture is <?= $row3[0] ?> ?</h3>
+            </div>
+
+        </div>
         <div class="row">
             <?php
                 for ($i = 0; $i < 3; $i++) {
-                    echo "<div class='col'><img src='images/" . $vehicles[$i][1] . "' style='width:100%;object-fit: cover;' data-bs-toggle='modal' data-bs-target=" . (($i == $correct) ? '#correct' : '#incorrect') . "></div>";
+                    echo "<div class='col'><button class='btn btn-warning btn-circle btn-lg' data-bs-toggle='modal' data-bs-target=" . (($i == $correct) ? '#correct' : '#incorrect') . ">".$buttons[$i]."</button><img src='images/" . $vehicles[$i][1] . "' class='vehicles' ></div>";
                 }
             ?>
         </div>

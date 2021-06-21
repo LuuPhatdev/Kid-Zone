@@ -6,7 +6,7 @@ if(!isset($_SESSION['user'])){
     include "../dao/database.php";
     $db = new database();
 //    tao cau truc cho select va count select
-    $select="select f.id_f, f.file_name, c.id_c, c.category_name, sr.id_e, sr.name, f.file_type";
+    $select="select f.id_f, f.file_name, c.id_c, c.category_name, sr.id_e, sr.name, f.file_type, f.active";
     $fromjoinon=" from file f join storage sr on sr.id_e=f.id_e join category c on c.id_c=sr.id_c";
     $orderbylimit=" order by c.id_c, sr.id_e, f.file_name limit 10";
     $selectcount="select count(*)";
@@ -134,11 +134,6 @@ if(!isset($_SESSION['user'])){
     <link href="css/admin.css" rel="stylesheet" />
 </head>
 <body class="">
-<script>
-    function playAudio(url) {
-        new Audio(url).play();
-    }
-</script>
 <div class="wrapper ">
     <div class="sidebar" data-color="red">
         <div class="logo">
@@ -182,7 +177,7 @@ if(!isset($_SESSION['user'])){
                             <span class="navbar-toggler-bar bar3"></span>
                         </button>
                     </div>
-                    <a class="navbar-brand" href="#pablo">Files</a>
+                    <p>User: <b><?=$_SESSION['user']?></b></p>
                 </div>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-bar navbar-kebab"></span>
@@ -224,7 +219,7 @@ if(!isset($_SESSION['user'])){
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" href="admin-home.php?logout=1">
+                            <a class="nav-link" href="logout.php?logout=1">
                                 <i class="now-ui-icons sport_user-run"></i>
                                 <p>
                                     <span class="d-md-block">Log out</span>
@@ -246,6 +241,8 @@ if(!isset($_SESSION['user'])){
                             <form method="post">
                                 <div class="card-header">
                                     <h4 class="card-title"> ALL YOUR DATA</h4>
+                                    <p>You can only delete a file if it is inactive.</p>
+<!--                                    nut next and prev-->
                                     <?php
                                     if($page>1){
                                         ?>
@@ -269,35 +266,23 @@ if(!isset($_SESSION['user'])){
                                             <th> <label class="customcheckbox m-b-20"> <input type="checkbox" id="mainCheckbox" onclick="toggle(this)"> <span class="checkmark"></span> </label> </th>
                                             <th>id_f</th>
                                             <th>file name</th>
-                                            <th>showcase</th>
                                             <th>id_c</th>
                                             <th>category name</th>
                                             <th>id_e</th>
                                             <th>storage name</th>
                                             <th>file type</th>
+                                            <th>active</th>
                                             <th>update</th>
                                             </thead>
                                             <tbody>
+<!--                                            phan show thong tin trong bang file-->
                                             <?php
                                             while($row=$stmt->fetch(PDO::FETCH_ASSOC)){
                                                 ?>
                                                 <tr>
-                                                    <th> <label class="customcheckbox"> <input type="checkbox" class="listCheckbox" name="checkes[]" value="<?php echo $row['id_f'];?>"> <span class="checkmark"></span> </label> </th>
+                                                    <th> <?php if($row['active']==0){ ?> <label class="customcheckbox"> <input type="checkbox" class="listCheckbox" name="checkes[]" value="<?php echo $row['id_f'];?>"> <span class="checkmark"></span> </label> <?php } ?> </th>
                                                     <td><?php echo $row['id_f'];?></td>
                                                     <td><?php echo $row['file_name'];?></td>
-                                                    <?php
-                                                    if($row['file_type']==='0'){
-                                                        ?>
-                                                        <td><img src="images/<?php echo $row['file_name'];?>" style="width: 100px"></td>
-                                                        <?php
-                                                    }else{
-                                                        ?>
-                                                        <td>
-                                                            <button type="button" class="btn btn-success"  name="play" value="Play" onclick="playAudio('<?php echo 'voice/'.$row['file_name'];?>')">Play</button>
-                                                        </td>
-                                                        <?php
-                                                    }
-                                                    ?>
                                                     <td><?php echo $row['id_c'];?></td>
                                                     <td><?php echo $row['category_name'];?></td>
                                                     <td><?php echo $row['id_e'];?></td>
@@ -307,6 +292,13 @@ if(!isset($_SESSION['user'])){
                                                             echo "picture";
                                                         }else{
                                                             echo "sound";
+                                                        }
+                                                        ?></td>
+                                                    <td><?php
+                                                        if($row['active']==1){
+                                                            echo "active";
+                                                        }else{
+                                                            echo "inactive";
                                                         }
                                                         ?></td>
                                                     <td><input type="button" name="update" class="btn btn-secondary" value="Update"
@@ -354,10 +346,6 @@ if(!isset($_SESSION['user'])){
         checkboxes = document.getElementsByName('checkes[]');
         for(var i=0, n=checkboxes.length;i<n;i++) {
             checkboxes[i].checked = source.checked;
-        }
-        function play(i) {
-            let myAudio = document.getElementById("audio" + i);
-            myAudio.play();
         }
     }
 </script>

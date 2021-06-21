@@ -8,12 +8,21 @@
     padding:150px 0 50px 0;
     font-family: Prompt;
 }
-
+.numbers {
+    padding: 20px;
+    border: 2px solid yellow;
+    border-radius: 20px;
+}
 .result{
     margin: 50px 0 50px 0;
 }
 
 .btn-info{
+    margin-right: 20px;
+    padding: 20px 50px;
+    border-radius: 10px;
+}
+.btn-warning{
     padding: 20px 50px;
     border-radius: 10px;
 }

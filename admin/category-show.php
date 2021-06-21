@@ -79,7 +79,8 @@ if (isset($_GET['search']) && trim($_GET['search']) != '') {
                             <span class="navbar-toggler-bar bar3"></span>
                         </button>
                     </div>
-                    <a class="navbar-brand" href="#pablo">Categories</a>
+<!--                    <a class="navbar-brand" href="category-show.php">Categories</a>-->
+                    <p>User: <b><?=$_SESSION['user']?></b></p>
                 </div>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-bar navbar-kebab"></span>
@@ -109,7 +110,7 @@ if (isset($_GET['search']) && trim($_GET['search']) != '') {
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" href="admin-home.php?logout=1">
+                            <a class="nav-link" href="logout.php?logout=1">
                                 <i class="now-ui-icons sport_user-run"></i>
                                 <p>
                                     <span class="d-md-block">Log out</span>
@@ -129,6 +130,7 @@ if (isset($_GET['search']) && trim($_GET['search']) != '') {
                     <div class="card">
                         <div class="card-header">
                             <h4 class="card-title"> ALL YOUR DATA</h4>
+                            <p>You can only delete a category if it is inactive.</p>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -137,6 +139,7 @@ if (isset($_GET['search']) && trim($_GET['search']) != '') {
                                     <th>ID</th>
                                     <th>Category Name</th>
                                     <th>Description</th>
+                                    <th>Active</th>
                                     <th>Edit</th>
                                     <th>Delete</th>
                                     </thead>
@@ -144,11 +147,19 @@ if (isset($_GET['search']) && trim($_GET['search']) != '') {
                                     <?php
                                     while ($row = $results->fetch(PDO::FETCH_ASSOC)){
                                         echo "<tr>";
-                                        foreach ($row as $item) {
-                                            echo "<td>" . $item . "</td>";
+                                        foreach ($row as $key => $item) {
+                                            if ($key == 'active') {
+                                                echo "<td>" . ($item==1?"Active":"Inactive") . "</td>";
+                                            } else {
+                                                echo "<td>" . $item . "</td>";
+                                            }
                                         }
                                         echo "<td><a class='btn btn-secondary' role='button' href='category-edit.php?id=".$row['id_c']."'>Edit</a></td>";
-                                        echo "<td><button type='button' class='btn btn-danger' data-bs-toggle='modal' data-bs-target='#warning' value='".$row['id_c']."' onclick='getRowId(this);'>Delete</button></td> </tr>";
+                                        if ($row['active'] != 1) {
+                                            echo "<td><button type='button' class='btn btn-danger' data-bs-toggle='modal' data-bs-target='#warning' value='".$row['id_c']."' onclick='getRowId(this);'>Delete</button></td> </tr>";
+                                        } else {
+                                            echo "<td></td> </tr>";
+                                        }
                                     }
                                     $db->CloseConn();
                                     ?>

@@ -13,29 +13,33 @@
                 if ($_POST['user_name'] === "" || $_POST['password'] === "") {
                     Message::ShowMessage("username or password not filled yet");
                 } else {
-                    if (ctype_alnum($_POST['user_name']) && ctype_alnum($_POST['password'])) {
-                        $query = "select * from admin where user_name=?";
-                        $param = [
-                            $_POST['user_name']
-                        ];
-                        $stmt = $db->EditDataParam($query, $param);
-                        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+                    if(strlen($_POST['user_name'])>15||strlen($_POST['password'])>15){
+                        Message::ShowMessage("Username/password must not pass 15 letters");
+                    }else{
+                        if (ctype_alnum($_POST['user_name']) && ctype_alnum($_POST['password'])) {
+                            $query = "select * from admin where user_name=?";
+                            $param = [
+                                $_POST['user_name']
+                            ];
+                            $stmt = $db->EditDataParam($query, $param);
+                            $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-                        if (empty($row)) {
-                            Message::ShowMessage("wrong username or password");
-                        } else {
-                            if ($row['password'] === $_POST['password']) {
-                                $_SESSION['user'] = $_POST['user_name'];
-                                $_SESSION['login'] = "log_in";
-                                //dia chi cua show luu tru de o day
-                                header("Location: category-show.php");
-                            } else {
+                            if (empty($row)) {
                                 Message::ShowMessage("wrong username or password");
+                            } else {
+                                if ($row['password'] === $_POST['password']) {
+                                    $_SESSION['user'] = $_POST['user_name'];
+                                    $_SESSION['login'] = "log_in";
+                                    //dia chi cua show luu tru de o day
+                                    header("Location: category-show.php");
+                                } else {
+                                    Message::ShowMessage("wrong username or password");
+                                }
                             }
-                        }
 
-                    } else {
-                        Message::ShowMessage("special letters are not allowed");
+                        } else {
+                            Message::ShowMessage("special letters are not allowed");
+                        }
                     }
                 }
             }

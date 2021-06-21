@@ -12,15 +12,16 @@ if(!isset($_SESSION['user'])){
             if(!isset($_POST['category'])){
                 Message::ShowMessage("please choose category to insert into.");
             }else{
-                $queryadd="insert into storage (id_c, name, description) values (?,?,?)";
+                $queryadd="insert into storage (id_c, name, description, active) values (?,?,?,?)";
                 $paramadd=[
                     $_POST['category'],
                     $_POST['ename'],
-                    $_POST['description']
+                    $_POST['description'],
+                    0
                 ];
                 $db->EditDataParam($queryadd,$paramadd);
                 Message::ShowMessage("Added completed");
-//                header("Location: show-storage.php");
+                header("Location: show-storage.php");
             }
         }
     }
@@ -79,12 +80,12 @@ if(!isset($_SESSION['user'])){
         <nav class="navbar navbar-transparent  bg-primary  navbar-absolute">
             <div class="container-fluid">
                 <div class="navbar-wrapper">
-                    <a class="navbar-brand" href="#pablo">Storages</a>
+                    <p>User: <b><?=$_SESSION['user']?></b></p>
                 </div>
                 <div class=" justify-content-end" id="navigation">
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link" href="#pablo">
+                            <a class="nav-link" href="logout.php?logout=1">
                                 <i class="now-ui-icons sport_user-run"></i>
                                 <p>
                                     <span class="d-md-block">Log out</span>
@@ -129,7 +130,7 @@ if(!isset($_SESSION['user'])){
                                     </div>
                                 </div>
                                 <div class="form-floating mb-3">
-                                    <textarea class="form-control" name="description" id="desc" required></textarea>
+                                    <textarea class="form-control" name="description" id="desc"></textarea>
                                     <label for="description">Description </label>
                                 </div>
                                 <div class="d-flex justify-content-center">

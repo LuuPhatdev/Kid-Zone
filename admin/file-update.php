@@ -23,7 +23,6 @@ if(isset($_GET['id_f'])){
 }
 if($_SERVER['REQUEST_METHOD']==='POST'){
     $true=1;
-    echo $_POST['storage'];
     while($true==1) {
         $query = "select file_name from file";
         $stmt = $db->EditData($query);
@@ -55,10 +54,10 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
             if($picval > 0 || $souval > 0){
                 if ($picval > 0) {
                     $filetype = 0;
-                    move_uploaded_file($_FILES['filename']['tmp_name'], 'images/' . $_FILES['filename']['name']);
+                    move_uploaded_file($_FILES['filename']['tmp_name'], '../public/images/' . $_FILES['filename']['name']);
                 } else {
                     $filetype = 1;
-                    move_uploaded_file($_FILES['filename']['tmp_name'], 'voice/' . $_FILES['filename']['name']);
+                    move_uploaded_file($_FILES['filename']['tmp_name'], '../public/voice/' . $_FILES['filename']['name']);
                 }
             }else{
                 Message::ShowMessage("only jpeg, png, jpg(image) or wav(sound) allowed");
@@ -68,17 +67,19 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
             finfo_close($finfo);
         }
         if($_FILES['filename']['size'] === 0){
-            $query="update file set id_e = ? where file_name = ?";
+            $query="update file set id_e = ?, active=? where file_name = ?";
             $param=[
                 $_POST['storage'],
+                $_POST['active'],
                 $_POST['oldfilename']
             ];
         }else{
-            $query="update file set id_e = ?, file_name = ?, file_type = ? where id_f = ?";
+            $query="update file set id_e = ?, file_name = ?, file_type = ?, active=? where id_f = ?";
             $param=[
                 $_POST['storage'],
                 $_FILES['filename']['name'],
                 $filetype,
+                $_POST['active'],
                 $row['id_f']
             ];
         }
@@ -144,12 +145,12 @@ if(isset($_GET['id_f'])){
             <nav class="navbar navbar-transparent  bg-primary  navbar-absolute">
                 <div class="container-fluid">
                     <div class="navbar-wrapper">
-                        <a class="navbar-brand" href="#pablo">Files</a>
+                        <p>User: <b><?=$_SESSION['user']?></b></p>
                     </div>
                     <div class=" justify-content-end" id="navigation">
                         <ul class="navbar-nav">
                             <li class="nav-item">
-                                <a class="nav-link" href="#pablo">
+                                <a class="nav-link" href="logout.php?logout=1">
                                     <i class="now-ui-icons sport_user-run"></i>
                                     <p>
                                         <span class="d-md-block">Log out</span>
@@ -185,6 +186,31 @@ if(isset($_GET['id_f'])){
                                         </div>
                                     </div>
                                     <div class="mb-3 row">
+                                        <label for="active" class="col-sm-3 col-form-label">Active: </label>
+                                        <div class="col-sm-8">
+                                            <select name="active" class="form-control">
+                                                <option value="<?php echo $selectedrow['active'];?>" selected><?php
+                                                    if($selectedrow['active']==1){
+                                                        echo "yes";
+                                                    }else{
+                                                        echo "no";
+                                                    }
+                                                    $firstopt=$selectedrow['active'];
+                                                        ?>
+                                                </option>
+                                                <option value="<?php if($firstopt==0){echo "1";}else{echo "0";}?>">
+                                                    <?php
+                                                        if($firstopt==0){
+                                                            echo "yes";
+                                                        }else{
+                                                            echo "no";
+                                                        }
+                                                    ?>
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3 row">
                                         <label for="storage" class="col-sm-3 col-form-label">Storage:</label>
                                         <div class="col-sm-8">
                                             <select name="storage" class="form-control">
@@ -198,10 +224,9 @@ if(isset($_GET['id_f'])){
                                                 ?>
                                             </select>
                                         </div>
-
                                     </div>
                                     <div class="d-flex justify-content-center">
-                                        <input name="update" type="submit" class="btn btn-success" value="Edit The Storage">
+                                        <input name="update" type="submit" class="btn btn-success" value="Edit The File">
                                     </div>
                                 </form>
                             </div>

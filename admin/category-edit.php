@@ -8,12 +8,14 @@ while (0==0) {
     if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
         break;
     }
+//    check for blank input
     $_POST['name'] = trim($_POST['name']);
     if ($_POST['name'] == '') {
         echo "<script>alert('CATEGORY\'S NAME CANNOT BE BLANK')</script>";
         break;
     }
     $db = new Database();
+//    check for unique names
     $query = "select category_name from category where id_c != ? ;";
     $params = [
         $_GET['id']
@@ -31,10 +33,27 @@ while (0==0) {
         $db->CloseConn();
         break;
     }
-    $query = "update category set CATEGORY_NAME = ? , DESCRIPTION = ? where ID_C = ? ;";
+//    check for active storages and files
+    $query = "select count(s.id_e) + count(f.id_f) "
+    . "from category c inner join storage s on c.id_c = s.id_c "
+    . "inner join file f on s.id_e = f.id_e "
+    . "where c.id_c = ? and s.active = 1 and f.active = 1; ";
+    $param = [
+        $_GET['id']
+    ];
+    $result = $db->EditDataParam($query, $param);
+    $result_array = $result->fetch(PDO::FETCH_NUM);
+    if ($_POST['active'] == 0 &&  $result_array[0] > 0) {
+        echo "<script>alert('ALL RELATED STORAGES AND FILES MUST TURN INACTIVE BEFORE THIS CATEGORY CAN TURN INACTIVE!')</script>";
+        $db->CloseConn();
+        break;
+    }
+//    actual update
+    $query = "update category set category_name = ? , description = ?, ACTIVE = ? where ID_C = ? ;";
     $params = [
         $_POST['name'],
         $_POST['desc'],
+        $_POST['active'],
         $_GET['id']
     ];
     $db->EditDataParam($query, $params);
@@ -107,12 +126,12 @@ $editing = $results->fetch(PDO::FETCH_ASSOC);
         <nav class="navbar navbar-transparent  bg-primary  navbar-absolute">
             <div class="container-fluid">
                 <div class="navbar-wrapper">
-                    <a class="navbar-brand" href="#pablo">Categories</a>
+                    <p>User: <b><?=$_SESSION['user']?></b></p>
                 </div>
                 <div class=" justify-content-end" id="navigation">
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link" href="#pablo">
+                            <a class="nav-link" href="logout.php?logout=1">
                                 <i class="now-ui-icons sport_user-run"></i>
                                 <p>
                                     <span class="d-md-block">Log out</span>
@@ -139,6 +158,15 @@ $editing = $results->fetch(PDO::FETCH_ASSOC);
                                     <label for="name" class="col-sm-3 col-form-label">Category's Name: </label>
                                     <div class="col-sm-9">
                                         <input type="text" name="name" id="name" class="form-control" value="<?=$editing['category_name']?>">
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label for="name" class="col-sm-3 col-form-label">Active or not? </label>
+                                    <div class="col-sm-4">
+                                        <select name="active" id="active" class="search-selections">
+                                            <option value="1" <?=$editing['active']==1?'selected':''?>>Yes</option>
+                                            <option value="0" <?=$editing['active']!=1?'selected':''?>>No</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="form-floating mb-3">

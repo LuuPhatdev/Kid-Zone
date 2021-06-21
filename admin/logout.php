@@ -1,0 +1,9 @@
+<?php
+session_start();
+if(!isset($_SESSION['user'])){
+    header("Location:login.php");
+}
+if($_SERVER['REQUEST_METHOD']==='GET'&&isset($_GET['logout'])){
+    unset($_SESSION['user']);
+    header("Location:login.php");
+}

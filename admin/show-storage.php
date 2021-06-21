@@ -6,7 +6,7 @@ if(!isset($_SESSION['user'])){
     include "../dao/database.php";
     $db = new database();
 //    tao cau truc cho select va count select
-    $select="select sr.id_e, sr.name, c.id_c, c.category_name, sr.description";
+    $select="select sr.id_e, sr.name, c.id_c, c.category_name, sr.description, sr.active";
     $fromjoinon=" from storage sr join category c on c.id_c=sr.id_c";
     $orderbylimit=" order by sr.id_c, sr.name limit 10";
     $selectcount="select count(*)";
@@ -83,20 +83,37 @@ if(!isset($_SESSION['user'])){
             if (empty($_POST['checkes'])) {
                 Message::ShowMessage("must check an item you want to delete first");
             }else{
-//                phan lap lai viec xoa cho bang file va storage cho moi o checked
+//                kiem tra coi co file nao active khong cho tung storage
+                $arractive= array();
                 foreach($_POST['checkes'] as $value){
-//                    delete trong file lien quan den storage
-                    $querydelete="delete from file where id_e=?";
-                    $paramdelete=[
+                    $queryactive="select count(*) from file where id_e=? and active=1";
+                    $paramactive=[
                             $value
                     ];
-                    $db->EditDataParam($querydelete, $paramdelete);
-//                    delete trong storage
-                    $querydelete="delete from storage where id_e=?";
-                    $db->EditDataParam($querydelete, $paramdelete);
+                    $countactive=$db->EditDataParam($queryactive,$paramactive);
+                    $countrowactive=$countactive->fetch(PDO::FETCH_ASSOC);
+                    if($countrowactive['count(*)']>0){
+                        array_push($arractive,$value);
+                    }
                 }
-                Message::ShowMessage("delete completed");
-                header("Refresh:0");
+                if(!empty($arractive)){
+                    Message::ShowMessage("Error, file(s) in storage(s) still active. please check id_e: ".implode(", ", $arractive));
+                }else {
+//                phan lap lai viec xoa cho bang file va storage cho moi o checked
+                    foreach ($_POST['checkes'] as $value) {
+//                    delete trong file lien quan den storage
+                        $querydelete = "delete from file where id_e=? and active=0";
+                        $paramdelete = [
+                            $value
+                        ];
+                        $db->EditDataParam($querydelete, $paramdelete);
+//                    delete trong storage
+                        $querydelete = "delete from storage where id_e=?";
+                        $db->EditDataParam($querydelete, $paramdelete);
+                    }
+                    Message::ShowMessage("delete completed");
+                    header("Refresh:0");
+                }
             }
         }
     }
@@ -162,7 +179,7 @@ if(!isset($_SESSION['user'])){
                                 <span class="navbar-toggler-bar bar3"></span>
                             </button>
                         </div>
-                        <a class="navbar-brand" href="#pablo">Storages</a>
+                        <p>User: <b><?=$_SESSION['user']?></b></p>
                     </div>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-bar navbar-kebab"></span>
@@ -201,7 +218,7 @@ if(!isset($_SESSION['user'])){
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link" href="admin-home.php?logout=1">
+                                <a class="nav-link" href="logout.php?logout=1">
                                     <i class="now-ui-icons sport_user-run"></i>
                                     <p>
                                         <span class="d-md-block">Log out</span>
@@ -223,6 +240,7 @@ if(!isset($_SESSION['user'])){
                             <form method="post">
                                 <div class="card-header">
                                     <h4 class="card-title"> ALL YOUR DATA</h4>
+                                    <p>You can only delete a storage if it is inactive.</p>
                                     <?php
                                     if($page>1){
                                         ?>
@@ -248,19 +266,30 @@ if(!isset($_SESSION['user'])){
                                             <th>ID_C</th>
                                             <th>Category Name</th>
                                             <th>Description</th>
+                                            <th>Active</th>
                                             <th>Update</th>
                                             </thead>
                                             <tbody>
                                             <?php
                                             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
                                                 echo "<tr>";
-                                                echo "<td> <label class='customcheckbox'> <input type='checkbox' class='listCheckbox' name='checkes[]' value='".$row['id_e']."'> <span class='checkmark'></span> </label> </td>";
-                                                foreach ($row as $item) {
-                                                    echo "<td>" . $item . "</td>";
+                                                if($row['active']==0){
+                                                    echo "<td> <label class='customcheckbox'> <input type='checkbox' class='listCheckbox' name='checkes[]' value='".$row['id_e']."'> <span class='checkmark'></span> </label> </td>";
+                                                }else{
+                                                    echo "<td></td>";
+                                                }
+                                                echo "<td>".$row['id_e']."</td>";
+                                                echo "<td>".$row['name']."</td>";
+                                                echo "<td>".$row['id_c']."</td>";
+                                                echo "<td>".$row['category_name']."</td>";
+                                                echo "<td>".$row['description']."</td>";
+                                                if($row['active']==1){
+                                                    echo "<td>active</td>";
+                                                }else{
+                                                    echo "<td>inactive</td>";
                                                 }
                                                 echo "<td><a class='btn btn-secondary' role='button' href='update-storage.php?id_e=".$row['id_e']."'>Edit</a></td>";
                                             }
-                                            $db->CloseConn();
                                             ?>
                                             </tbody>
                                         </table>

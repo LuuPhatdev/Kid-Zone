@@ -6,7 +6,7 @@ if(!isset($_SESSION['user'])){
     include "../dao/database.php";
     $db= new database();
     if(isset($_GET['id_e'])){
-        $query="select sr.name, c.category_name, sr.description, sr.id_c from storage sr join category c on c.id_c=sr.id_c where sr.id_e=?";
+        $query="select sr.name, c.category_name, sr.description, sr.id_c, sr.active from storage sr join category c on c.id_c=sr.id_c where sr.id_e=?";
         $param=[
             $_GET['id_e']
         ];
@@ -17,16 +17,36 @@ if(!isset($_SESSION['user'])){
     }
     if($_SERVER['REQUEST_METHOD']==='POST'){
         if(isset($_POST['update'])){
-            if($_POST['description']===""){
-                Message::ShowMessage("please enter description.");
-            }elseif ($_POST['ename']===""){
+            if ($_POST['ename']===""){
                 Message::ShowMessage("please enter Storage's name.");
+            }elseif($_POST['active']==="0"){
+                $queryactive="select count(*) from file f join storage sr on sr.id_e=f.id_e where f.active=1 and f.id_e=?";
+                $paramactive=[
+                    $_GET['id_e']
+                ];
+                $count=$db->EditDataParam($queryactive, $paramactive);
+                $countrow=$count->fetch(PDO::FETCH_COLUMN);
+                if($countrow>0){
+                    Message::ShowMessage("Error, file(s) inside this storage is(are) currently used in client");
+                }else{
+                    $query="update storage set id_c=?, name=?, description=?, active =? where id_e=?";
+                    $param=[
+                        $_POST['category'],
+                        $_POST['ename'],
+                        $_POST['description'],
+                        $_POST['active'],
+                        $_GET['id_e']
+                    ];
+                    $db->EditDataParam($query,$param);
+                    header("Location: show-storage.php");
+                }
             }else{
-                $query="update storage set id_c=?, name=?, description=? where id_e=?";
+                $query="update storage set id_c=?, name=?, description=?, active =? where id_e=?";
                 $param=[
                     $_POST['category'],
                     $_POST['ename'],
                     $_POST['description'],
+                    $_POST['active'],
                     $_GET['id_e']
                 ];
                 $db->EditDataParam($query,$param);
@@ -92,12 +112,12 @@ if(isset($_GET['id_e'])){
         <nav class="navbar navbar-transparent  bg-primary  navbar-absolute">
             <div class="container-fluid">
                 <div class="navbar-wrapper">
-                    <a class="navbar-brand" href="#pablo">Storages</a>
+                    <p>User: <b><?=$_SESSION['user']?></b></p>
                 </div>
                 <div class=" justify-content-end" id="navigation">
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link" href="#pablo">
+                            <a class="nav-link" href="logout.php?logout=1">
                                 <i class="now-ui-icons sport_user-run"></i>
                                 <p>
                                     <span class="d-md-block">Log out</span>
@@ -138,6 +158,31 @@ if(isset($_GET['id_e'])){
                                                 <?php
                                             }
                                             ?>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label for="active" class="col-sm-3 col-form-label">Active: </label>
+                                    <div class="col-sm-8">
+                                        <select name="active" class="form-control">
+                                            <option value="<?php echo $row['active'];?>" selected><?php
+                                                if($row['active']==1){
+                                                    echo "yes";
+                                                }else{
+                                                    echo "no";
+                                                }
+                                                $firstopt=$row['active'];
+                                                ?>
+                                            </option>
+                                            <option value="<?php if($firstopt==0){echo "1";}else{echo "0";}?>">
+                                                <?php
+                                                if($firstopt==0){
+                                                    echo "yes";
+                                                }else{
+                                                    echo "no";
+                                                }
+                                                ?>
+                                            </option>
                                         </select>
                                     </div>
                                 </div>

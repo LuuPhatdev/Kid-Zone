@@ -39,10 +39,10 @@ if(!isset($_SESSION['user'])){
             if($picval > 0 || $souval > 0){
                 if ($picval > 0) {
                     $filetype = 0;
-                    move_uploaded_file($_FILES['filename']['tmp_name'], 'images/' . $_FILES['filename']['name']);
+                    move_uploaded_file($_FILES['filename']['tmp_name'], '../public/images/' . $_FILES['filename']['name']);
                 } else {
                     $filetype = 1;
-                    move_uploaded_file($_FILES['filename']['tmp_name'], 'voice/' . $_FILES['filename']['name']);
+                    move_uploaded_file($_FILES['filename']['tmp_name'], '../public/voice/' . $_FILES['filename']['name']);
                 }
             }else{
                 Message::ShowMessage("only jpeg, png, jpg(image) or wav(sound) allowed");
@@ -54,11 +54,12 @@ if(!isset($_SESSION['user'])){
                 $true--;
                 break;
             }else{
-                $query="insert into file(id_e, file_name, file_type) values (?, ?, ?)";
+                $query="insert into file(id_e, file_name, file_type, active) values (?, ?, ?, ?)";
                 $param=[
                     $_POST['storage'],
                     $_FILES['filename']['name'],
-                    $filetype
+                    $filetype,
+                    0
                 ];
                 $db->EditDataParam($query,$param);
                 $true++;
@@ -122,12 +123,12 @@ if(!isset($_SESSION['user'])){
         <nav class="navbar navbar-transparent  bg-primary  navbar-absolute">
             <div class="container-fluid">
                 <div class="navbar-wrapper">
-                    <a class="navbar-brand" href="#pablo">Files</a>
+                    <p>User: <b><?=$_SESSION['user']?></b></p>
                 </div>
                 <div class=" justify-content-end" id="navigation">
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link" href="#pablo">
+                            <a class="nav-link" href="logout.php?logout=1">
                                 <i class="now-ui-icons sport_user-run"></i>
                                 <p>
                                     <span class="d-md-block">Log out</span>
@@ -154,28 +155,30 @@ if(!isset($_SESSION['user'])){
                                 <div class="mb-3 row">
                                     <label for="filename" class="col-sm-3 col-form-label">File's Name: </label>
                                     <div class="col-sm-9">
-                                        <input type="text" name="oldfilename" id="filename" class="form-control" readonly><br/>
+                                        <input type="text" name="oldfilename" id="filename" class="form-control" readonly>
                                     </div>
                                 </div>
 
                                 <div class="mb-3 row">
-                                    <label for="filename">Upload: </label>
+                                    <label for="filename" class="col-sm-3 col-form-label">Upload: </label>
                                     <div class="col-sm-9">
                                         <input type="file" name="filename" id="upload" required>
                                     </div>
                                 </div>
-                                <div class="form-floating mb-3">
-                                    <label for="storage">Storage: </label>
-                                    <select name="storage" style="height: 40px; width: 140px">
-                                        <option value="select" selected disabled>Select</option>
-                                        <?php
-                                        while($rowstor=$stor->fetch(PDO::FETCH_ASSOC)){
-                                            ?>
-                                            <option value="<?php echo $rowstor['id_e'];?>"><?php echo $rowstor['name'];?></option>
+                                <div class="mb-3 row">
+                                    <label for="storage" class="col-sm-3 col-form-label">Storage: </label>
+                                    <div class="col-sm-4">
+                                        <select name="storage" class="search-selections">
+                                            <option value="select" selected disabled>Select</option>
                                             <?php
-                                        }
-                                        ?>
-                                    </select>
+                                            while($rowstor=$stor->fetch(PDO::FETCH_ASSOC)){
+                                                ?>
+                                                <option value="<?php echo $rowstor['id_e'];?>"><?php echo $rowstor['name'];?></option>
+                                                <?php
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
                                 </div>
                                 <div class="d-flex justify-content-center">
                                     <input name="Add" type="submit" class="btn btn-success" value="Add New File">

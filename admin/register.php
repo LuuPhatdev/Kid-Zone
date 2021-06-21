@@ -1,17 +1,22 @@
 <?php
     session_start();
-    if (isset($_SESSION['username'])) {
-        header("Location:");
+    if (isset($_SESSION['user'])) {
+        header("Location: category-show.php");
     }
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         while (0 == 0) {
             include "../dao/database.php";
-            if (trim($_POST['user_name']) == '' || trim($_POST['password']) == '') {
+            $_POST['user_name'] = trim($_POST['user_name']);
+            $_POST['password'] = trim($_POST['password']);
+            if ($_POST['user_name'] == '' || $_POST['password'] == '') {
                 Message::ShowMessage('Username and password cannot be blank!');
                 break;
             }
-
+            if (strlen($_POST['user_name']) > 15 || strlen($_POST['password']) > 15) {
+                Message::ShowMessage('Username and password cannot be longer than 15 characters!');
+                break;
+            }
             if ($_POST['password'] != $_POST['repassword']) {
                 Message::ShowMessage('You must retype your password correctly!');
                 break;

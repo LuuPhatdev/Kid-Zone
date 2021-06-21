@@ -4,7 +4,7 @@
     $query = "select s.name, f.file_name "
         . "from category c inner join storage s on c.id_c = s.id_c "
         . "inner join file f on s.id_e = f.id_e "
-        . "where c.category_name like 'calculation' "
+        . "where c.category_name like 'calculation' and f.active = 1 "
         . "order by s.id_e";
     $result = $db->EditData($query);
     $calculation = array();
@@ -39,7 +39,8 @@
 <link rel="stylesheet" type="text/css" href="css/calculation.css?v=3"/>
 <section class="calculation">
     <div class="container">
-        <?php
+        <div class="numbers">
+            <?php
             for ($i = 0; $i < 10; $i++) {
                 if (isset($cal["number-" . $i])) {
                     echo "<img src='images/" . $cal["number-" . $i] . "' style='width:200px' id='number-" . $i . "' onclick='input(this)'>";
@@ -47,7 +48,8 @@
                     die("<script language='JavaScript'>alert('ERROR: INSUFFICIENT PICTURES FROM DATABASE')</script>");
                 }
             }
-        ?>
+            ?>
+        </div>
         <div class="result">
             <img src="images/<?= $cal["number-" . $a] ?>" style="width: 150px" id="first-number" alt="<?= $a ?>">
             <img src="images/<?= ($z) ? $cal["plus-sign"] : $cal["minus-sign"] ?>" style="width:100px"
@@ -60,13 +62,14 @@
         </div>
         <div class="d-flex justify-content-center">
             <button id="submit" class="btn btn-info" data-bs-toggle='modal' data-bs-target="#incorrect">SUBMIT</button>
+            <button class="btn btn-warning" onclick="resetInput()">Input your number again</button>
         </div>
     </div>
 </section>
 
 
 <div class="modal fade" id="correct" tabindex="-1" aria-labelledby="correct" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog" style="padding-top: 200px">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Correct</h5>
@@ -84,7 +87,7 @@
 </div>
 
 <div class="modal fade" id="incorrect" tabindex="-1" aria-labelledby="incorrect" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog" style="padding-top: 200px">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Incorrect</h5>
