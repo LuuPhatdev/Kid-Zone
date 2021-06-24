@@ -17,7 +17,7 @@ if(!isset($_SESSION['user'])){
                     $_POST['category'],
                     $_POST['ename'],
                     $_POST['description'],
-                    0
+                    1
                 ];
                 $db->EditDataParam($queryadd,$paramadd);
                 Message::ShowMessage("Added completed");
