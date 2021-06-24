@@ -21,6 +21,10 @@
                 Message::ShowMessage('You must retype your password correctly!');
                 break;
             }
+            if (!preg_match("/[a-zA-Z0-9]/i",$_POST['user_name'])){
+                Message::ShowMessage('Your username cannot have special characters!');
+                break;
+            }
 
             $db = new Database();
 //          check for existing username

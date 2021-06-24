@@ -21,14 +21,19 @@ if(!isset($_SESSION['user'])){
     if(isset($_GET['search'])&&isset($_GET['searchoption'])&&$_GET['search']!==""&&$_GET['searchoption']!==""){
         if($_GET['searchoption']==='sr.id_e' || $_GET['searchoption']==='c.id_c'){
             if(is_numeric($_GET['search'])){
-                $query=$select.$fromjoinon." where ".$_GET['searchoption']." = ? ".$orderbylimit;
+                if($_GET['searchoption']==='sr.id_e'){
+                    $query=$select.$fromjoinon." where sr.id_e = ? ".$orderbylimit;
+                    $querycount=$selectcount.$fromjoinon." where sr.id_e = ? ";
+                }else{
+                    $query=$select.$fromjoinon." where c.id_c = ? ".$orderbylimit;
+                    $querycount=$selectcount.$fromjoinon." where c.id_c = ? ";
+                }
                 if($page>1) {
                     $query = $query . " offset " . ($page - 1) * 10;
                 }
                 $param=[
                         $_GET['search']
                 ];
-                $querycount=$selectcount.$fromjoinon." where ".$_GET['searchoption']." = ? ";
                 $stmt=$db->EditDataParam($query,$param);
                 $count=$db->EditDataParam($querycount, $param);
                 $countrow=$count->fetch(PDO::FETCH_COLUMN);
@@ -39,15 +44,20 @@ if(!isset($_SESSION['user'])){
                 Message::ShowMessage("only numbers allowed in this column");
             }
         }else{
+            if($_GET['searchoption']==='sr.name'){
+                $query=$select.$fromjoinon." where sr.name like ? ".$orderbylimit;
+                $querycount=$selectcount.$fromjoinon." where sr.name like ? ";
+            }else{
+                $query=$select.$fromjoinon." where c.category_name like ? ".$orderbylimit;
+                $querycount=$selectcount.$fromjoinon." where c.category_name like ? ";
+            }
             $string="%".$_GET['search']."%";
-            $query=$select.$fromjoinon." where ".$_GET['searchoption']." like ? ".$orderbylimit;
             if($page>1) {
                 $query = $query . " offset " . ($page - 1) * 10;
             }
             $param=[
                 $string
             ];
-            $querycount=$selectcount.$fromjoinon." where ".$_GET['searchoption']." like ? ";
             $stmt=$db->EditDataParam($query,$param);
             $count=$db->EditDataParam($querycount, $param);
             $countrow=$count->fetch(PDO::FETCH_COLUMN);

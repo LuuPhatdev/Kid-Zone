@@ -37,7 +37,11 @@ while (0==0) {
     $query = "select count(s.id_e) + count(f.id_f) "
     . "from category c inner join storage s on c.id_c = s.id_c "
     . "inner join file f on s.id_e = f.id_e "
-    . "where c.id_c = ? and s.active = 1 and f.active = 1; ";
+    . "where c.id_c = ? "
+	. "and ("
+	. "(s.active = 1 and f.active = 1) "
+	. "or (s.active = 1 and f.active = 0)"
+	. "); ";
     $param = [
         $_GET['id']
     ];

@@ -1,0 +1,45 @@
+.contact-us{
+    background-image: url("../images/Abcbackground.png");
+    font-family: Prompt;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position:center ;
+    margin: 0 !important;
+    padding: 150px 0 50px 0;
+    height: 900px;
+}
+.contact{
+    max-width: 100%;
+    display: block;
+    text-align: center;
+}
+HTML CSS Result Skip Results Iframe
+div.elem-group {
+    margin: 40px 0;
+}
+p{
+    color:#68C2E8;
+}
+
+label {
+    display: block;
+    font-family: 'Aleo';
+    padding-bottom: 4px;
+    font-size: 1.25em;
+
+}
+
+input, select, textarea {
+    border-radius: 2px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    font-size: 1.25em;
+    font-family: 'Aleo';
+    width: 500px;
+    padding: 8px;
+}
+
+textarea {
+    height: 250px;
+}
+

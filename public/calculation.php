@@ -4,14 +4,13 @@
     $query = "select s.name, f.file_name "
         . "from category c inner join storage s on c.id_c = s.id_c "
         . "inner join file f on s.id_e = f.id_e "
-        . "where c.category_name like 'calculation' and f.active = 1 "
+        . "where c.category_name like 'calculation' and f.file_type = 0 and f.active = 1 "
         . "order by s.id_e";
     $result = $db->EditData($query);
     $calculation = array();
     while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
         array_push($calculation, $row);
     }
-    // bảng STORAGE, field NAME cần phải thêm điều kiện unique not null, nếu không đoạn code này phải viết thêm điều kiện
     for ($i = count($calculation) - 1; $i > 0; $i--) {
         if ($calculation[$i]['name'] == $calculation[$i - 1]['name']) {
             $calculation[$i] = $calculation[count($calculation) - 1];
@@ -20,13 +19,20 @@
     }
     $cal = array();
     $temp2 = array();
-    foreach ($calculation as $key => $value) {
-        $temp2[$calculation[$key]['name']] = $calculation[$key]['file_name'];
+    foreach ($calculation as $value) {
+        $temp2[$value['name']] = $value['file_name'];
         $cal = array_merge($cal, $temp2);
     }
-    if (!(isset($cal["plus-sign"]) && isset($cal["minus-sign"]))) {
-        die("<script language='JavaScript'>alert('ERROR: INSUFFICIENT PICTURES FROM DATABASE')</script>");
+//    check if all the numbers and math signs exist in the database
+    if (!(isset($cal["plus-sign"]) && isset($cal["minus-sign"]) && isset($cal["equal-sign"]))) {
+        die("<script language='JavaScript'>alert('ERROR: INSUFFICIENT PICTURES OF MATH SIGNS FROM DATABASE')</script>");
     }
+    for ($i = 0; $i < 10; $i++) {
+        if (!(isset($cal["number-" . $i]))) {
+            die("<script language='JavaScript'>alert('ERROR: INSUFFICIENT PICTURES OF NUMBERS FROM DATABASE')</script>");
+        }
+    }
+//    create random question
     $z = rand(0, 1);
     $a = rand(0, 9);
     if ($z == 1) {
@@ -42,11 +48,7 @@
         <div class="numbers">
             <?php
             for ($i = 0; $i < 10; $i++) {
-                if (isset($cal["number-" . $i])) {
-                    echo "<img src='images/" . $cal["number-" . $i] . "' style='width:200px' id='number-" . $i . "' onclick='input(this)'>";
-                } else {
-                    die("<script language='JavaScript'>alert('ERROR: INSUFFICIENT PICTURES FROM DATABASE')</script>");
-                }
+                echo "<img src='images/" . $cal["number-" . $i] . "' style='width:200px' id='number-" . $i . "' onclick='input(this)'>";
             }
             ?>
         </div>

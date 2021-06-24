@@ -21,14 +21,22 @@ if(!isset($_SESSION['user'])){
     if(isset($_GET['search'])&&isset($_GET['searchoption'])&&$_GET['search']!==""&&$_GET['searchoption']!==""){
         if($_GET['searchoption']==='sr.id_e' || $_GET['searchoption']==='c.id_c' || $_GET['searchoption']==='f.id_f'){
             if(is_numeric($_GET['search'])){
-                $query=$select.$fromjoinon." where ".$_GET['searchoption']." = ? ".$orderbylimit;
+                if($_GET['searchoption']==='sr.id_e'){
+                    $query=$select.$fromjoinon." where sr.id_e = ? ".$orderbylimit;
+                    $querycount=$selectcount.$fromjoinon." where sr.id_e = ? ";
+                }elseif ($_GET['searchoption']==='c.id_c'){
+                    $query=$select.$fromjoinon." where c.id_c = ? ".$orderbylimit;
+                    $querycount=$selectcount.$fromjoinon." where c.id_c = ? ";
+                }else{
+                    $query=$select.$fromjoinon." where f.id_f = ? ".$orderbylimit;
+                    $querycount=$selectcount.$fromjoinon." where f.id_f = ? ";
+                }
                 if($page>1) {
                     $query = $query . " offset " . ($page - 1) * 10;
                 }
                 $param=[
                     $_GET['search']
                 ];
-                $querycount=$selectcount.$fromjoinon." where ".$_GET['searchoption']." = ? ";
                 $stmt=$db->EditDataParam($query,$param);
                 $count=$db->EditDataParam($querycount, $param);
                 $countrow=$count->fetch(PDO::FETCH_COLUMN);
@@ -46,14 +54,14 @@ if(!isset($_SESSION['user'])){
                     }else{
                         $type="1";
                     }
-                    $query=$select.$fromjoinon." where ".$_GET['searchoption']." = ? ".$orderbylimit;
+                    $query=$select.$fromjoinon." where f.file_type = ? ".$orderbylimit;
                     if($page>1) {
                         $query = $query . " offset " . ($page - 1) * 10;
                     }
                     $param=[
                         $type
                     ];
-                    $querycount=$selectcount.$fromjoinon." where ".$_GET['searchoption']." = ? ";
+                    $querycount=$selectcount.$fromjoinon." where f.file_type = ? ";
                     $stmt=$db->EditDataParam($query,$param);
                     $count=$db->EditDataParam($querycount, $param);
                     $countrow=$count->fetch(PDO::FETCH_COLUMN);
@@ -66,16 +74,27 @@ if(!isset($_SESSION['user'])){
             }else{
                 Message::ShowMessage("numbers are not allowed when searching in File_Type");
             }
+            //                                <option value="f.file_name">FILE NAME</option>
+//                                <option value="c.category_name">CATEGORY NAME</option>
+//                                <option value="sr.name">STORAGE NAME</option>
         }else{
             $string="%".$_GET['search']."%";
-            $query=$select.$fromjoinon." where ".$_GET['searchoption']." like ? ".$orderbylimit;
+            if($_GET['searchoption']==='f.file_name'){
+                $query=$select.$fromjoinon." where f.file_name like ? ".$orderbylimit;
+                $querycount=$selectcount.$fromjoinon." where f.file_name like ? ";
+            }elseif ($_GET['searchoption']==='c.category_name'){
+                $query=$select.$fromjoinon." where c.category_name like ? ".$orderbylimit;
+                $querycount=$selectcount.$fromjoinon." where c.category_name like ? ";
+            }else{
+                $query=$select.$fromjoinon." where sr.name like ? ".$orderbylimit;
+                $querycount=$selectcount.$fromjoinon." where sr.name like ? ";
+            }
             if($page>1) {
                 $query = $query . " offset " . ($page - 1) * 10;
             }
             $param=[
                 $string
             ];
-            $querycount=$selectcount.$fromjoinon." where ".$_GET['searchoption']." like ? ";
             $stmt=$db->EditDataParam($query,$param);
             $count=$db->EditDataParam($querycount, $param);
             $countrow=$count->fetch(PDO::FETCH_COLUMN);

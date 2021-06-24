@@ -14,7 +14,7 @@ if(isset($_GET['id_f'])){
     $row=$stmt->fetch(PDO::FETCH_ASSOC);
     $query="select * from storage";
     $stor=$db->EditData($query);
-    $query="select * from storage sr join file f on f.id_e=sr.id_e where sr.id_e = ?";
+    $query="select * from storage where id_e = ?";
     $param=[
         $row['id_e']
     ];
@@ -66,6 +66,18 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
             }
             finfo_close($finfo);
         }
+        $query="select active from storage where id_e = ?";
+        $param=[
+            $_POST['storage']
+        ];
+        $storageactive=$db->EditDataParam($query,$param);
+        $checkstract=$storageactive->fetch(PDO::FETCH_ASSOC);
+        if($checkstract['active']==0 && $_POST['active']==1)
+        {
+            Message::ShowMessage("please active storage you want to put this file in, id_e=".$_POST['storage']);
+            break;
+        }
+//        if($selectedrow[''])
         if($_FILES['filename']['size'] === 0){
             $query="update file set id_e = ?, active=? where file_name = ?";
             $param=[
@@ -189,13 +201,13 @@ if(isset($_GET['id_f'])){
                                         <label for="active" class="col-sm-3 col-form-label">Active: </label>
                                         <div class="col-sm-8">
                                             <select name="active" class="form-control">
-                                                <option value="<?php echo $selectedrow['active'];?>" selected><?php
-                                                    if($selectedrow['active']==1){
+                                                <option value="<?php echo $row['active'];?>" selected><?php
+                                                    if($row['active']==1){
                                                         echo "yes";
                                                     }else{
                                                         echo "no";
                                                     }
-                                                    $firstopt=$selectedrow['active'];
+                                                    $firstopt=$row['active'];
                                                         ?>
                                                 </option>
                                                 <option value="<?php if($firstopt==0){echo "1";}else{echo "0";}?>">

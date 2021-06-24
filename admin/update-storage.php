@@ -41,16 +41,26 @@ if(!isset($_SESSION['user'])){
                     header("Location: show-storage.php");
                 }
             }else{
-                $query="update storage set id_c=?, name=?, description=?, active =? where id_e=?";
+                $query="select active from category where id_c=?";
                 $param=[
-                    $_POST['category'],
-                    $_POST['ename'],
-                    $_POST['description'],
-                    $_POST['active'],
-                    $_GET['id_e']
+                        $_POST['category']
                 ];
-                $db->EditDataParam($query,$param);
-                header("Location: show-storage.php");
+                $categoryactive=$db->EditDataParam($query,$param);
+                $checkcategory=$categoryactive->fetch(PDO::FETCH_ASSOC);
+                if($checkcategory['active']==0){
+                    Message::ShowMessage("please active category you want to put this storage in first, id_c=".$_POST['category']);
+                }else{
+                    $query="update storage set id_c=?, name=?, description=?, active =? where id_e=?";
+                    $param=[
+                        $_POST['category'],
+                        $_POST['ename'],
+                        $_POST['description'],
+                        $_POST['active'],
+                        $_GET['id_e']
+                    ];
+                    $db->EditDataParam($query,$param);
+                    header("Location: show-storage.php");
+                }
             }
         }
     }

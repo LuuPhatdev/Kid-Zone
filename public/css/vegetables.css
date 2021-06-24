@@ -11,6 +11,9 @@
     padding: 150px 0 50px 0;
     height: 900px;
 }
+.rounded-pill{
+    padding: 50px;
+}
 .bg{
     background-image: url("../images/Abcbackground.png");
     font-family: Prompt;

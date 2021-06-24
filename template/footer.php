@@ -27,7 +27,7 @@
             <div class="useful-link">
                 <h3>Useful Link</h3>
                 <ul>
-                    <li><a href="../public/abc.php">Contact us</a></li>
+                    <li><a href="../public/contact.php">Contact us</a></li>
                     <li><a href="../public/calculation.php">Our Gallery</a></li>
                     <li><a href="../public/vegetables.php">Privacy policy</a></li>
                 </ul>

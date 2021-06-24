@@ -16,7 +16,6 @@
                     if(strlen($_POST['user_name'])>15||strlen($_POST['password'])>15){
                         Message::ShowMessage("Username/password must not pass 15 letters");
                     }else{
-                        if (ctype_alnum($_POST['user_name']) && ctype_alnum($_POST['password'])) {
                             $query = "select * from admin where user_name=?";
                             $param = [
                                 $_POST['user_name']
@@ -36,10 +35,6 @@
                                     Message::ShowMessage("wrong username or password");
                                 }
                             }
-
-                        } else {
-                            Message::ShowMessage("special letters are not allowed");
-                        }
                     }
                 }
             }
