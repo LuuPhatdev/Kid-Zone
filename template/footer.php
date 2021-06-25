@@ -1,4 +1,4 @@
-<link type="text/css" rel="stylesheet" href="../public/css/footer.css?v=2"/>
+<link type="text/css" rel="stylesheet" href="../public/css/footer.css?v=3"/>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
       integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
       crossorigin="anonymous" referrerpolicy="no-referrer"/>
@@ -9,7 +9,7 @@
                 <h3>Join now for premium</h3>
             </div>
             <div class="btn-join">
-                <button class="btn btn-primary"> Join Now</button>
+                <button class="btn btn-primary">Join Now</button>
             </div>
         </div>
     </div>
@@ -46,11 +46,14 @@
                 </div>
                 <div class="social-media">
                     <ul>
-                        <li><i class="fab fa-facebook fa-2x" style="color:Dodgerblue "></i></li>
-                        <li><i class="fab fa-youtube fa-2x" style="color:red "></i></li>
-                        <li><i class="fab fa-twitter-square fa-2x" style="color:#08a0e9 "></i></li>
-                        <li><i class="fab fa-linkedin fa-2x" style="color:#0e76a8 "></i></li>
+                        <li><a href="https://www.facebook.com/"><i class="fab fa-facebook fa-2x" style="color:Dodgerblue "></i></a></li>
+                        <li><a href="https://www.youtube.com/"><i class="fab fa-youtube fa-2x" style="color:red" ></i></a></li>
+                        <li><a href="https://www.twitter.com/"><i class="fab fa-twitter-square fa-2x" style="color:#08a0e9 " ></i></a></li>
+                        <li><a href="https://www.linkedin.com/"><i class="fab fa-linkedin fa-2x" style="color:#0e76a8 "></i></a></li>
                     </ul>
+                </div>
+                <div class="coppy-write" style="padding-top: 10px;color: #68C2E8">
+                    <p>Copyright © 2021 Kids-zone</p>
                 </div>
             </div>
         </div>

@@ -14,7 +14,10 @@
     top: 50%;
 
 }
-
+h3{
+    font-size: 28px;
+    font-family: Prompt;
+}
 .ad-subcribe {
     justify-content: center;
     position: absolute;
@@ -41,7 +44,7 @@
 
 .main-footer {
     position: relative;
-    height: 318px;
+    height: 356px;
     background-color: #222222;
     background-size: contain;
 }

@@ -74,15 +74,21 @@
     <div class="modal-dialog" style="padding-top: 200px">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Correct</h5>
+                <h3>Congratulation</h3>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <img src="images/star.jpg" alt="star" style="width:100px">
+                <img src="images/funny.png" width="200px"><br/>
+                <h1>CORRECT!</h1>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" onclick="location.reload();">Try Again</button>
+            <div class="modal-footer position-relative" style="height: 50px">
+                <button type="button" class="btn btn-primary position-absolute bottom-0 start-0"
+                        onclick="window.location.href='index.php';">Home page
+                </button>
+                <button type="button" class="btn btn-success position-absolute bottom-0 end-0"
+                        data-bs-dismiss="modal" id="homepage" onclick="window.location.reload();">
+                    Next Question
+                </button>
             </div>
         </div>
     </div>
@@ -92,15 +98,21 @@
     <div class="modal-dialog" style="padding-top: 200px">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Incorrect</h5>
+                <h3>Sorry</h3>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                TRY AGAIN PLEASE
+                <img src="images/cry.png" width="200px"><br/>
+                <h2>INCORRECT!</h2>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" onclick="location.reload();">Try Again</button>
+            <div class="modal-footer position-relative" style="height: 50px">
+                <button type="button" class="btn btn-primary position-absolute bottom-0 start-0"
+                        data-bs-dismiss="modal">Try again?
+                </button>
+
+                <button type="button" class="btn btn-success position-absolute bottom-0 end-0"
+                        onclick="window.location.reload();">Next Question
+                </button>
             </div>
         </div>
     </div>

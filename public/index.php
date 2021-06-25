@@ -6,7 +6,7 @@
     $db->CloseConn();
 ?>
 <?php include "../template/header.php"; ?>
-<link rel="stylesheet" type="text/css" href="css/homepage.css?v=3">
+<link rel="stylesheet" type="text/css" href="css/homepage.css?v=1">
 <link href='https://fonts.googleapis.com/css?family=Bubblegum Sans' rel='stylesheet'>
 <section class="homepage">
     <div class="introduct-banner"></div>
@@ -21,7 +21,7 @@
                     </a>
                     <div class="container">
                         <a class="title" href="abc.php"><b>ABC</b></a>
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                        <p>Go to learn Alphabet with us.</p>
                     </div>
                 </div>
             </div>
@@ -32,7 +32,7 @@
                     </a>
                     <div class="container">
                         <a class="title" href="calculation.php"><b>Math</b></a>
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                        <p>Go to learn Math with us.</p>
                     </div>
                 </div>
             </div>
@@ -43,7 +43,7 @@
                     </a>
                     <div class="container">
                         <a class="title" href="vegetables.php"><b>Vegetables</b></a>
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                        <p>Go to learn Vegetables with us.</p>
                     </div>
                 </div>
             </div>
@@ -54,7 +54,7 @@
                     </a>
                     <div class="container">
                         <a class="title" href="vehicles.php"><b>Vehicles</b></a>
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                        <p>Go to learn Vehicles with us.</p>
                     </div>
                 </div>
             </div>

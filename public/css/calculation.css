@@ -8,6 +8,9 @@
     padding:150px 0 50px 0;
     font-family: Prompt;
 }
+.modal-content{
+    text-align: center;
+}
 .numbers {
     padding: 20px;
     border: 2px solid yellow;
