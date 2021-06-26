@@ -12,11 +12,8 @@ if(!isset($_SESSION['user'])){
             if(!isset($_POST['category'])){
                 Message::ShowMessage("please choose category to insert into.");
             }else{
-                $query="select name from storage where id_c = ?";
-                $param=[
-                    $_POST['category']
-                ];
-                $check=$db->EditDataParam($query,$param);
+                $query="select name from storage";
+                $check=$db->EditData($query);
                 $okay=1;
                 while($rowcheck=$check->fetch(PDO::FETCH_ASSOC)){
                     if($rowcheck['name']==$_POST['ename']){

@@ -5,8 +5,8 @@ class database{
    private $dns ="mysql:host=localhost; dbname=kidzone; charset=utf8";
 
 //You can changes username and password here to start source:
-   private $username="NoxiaPhat";
-   private $password="Luuphat01";
+   private $username="leemongyan";
+   private $password="09051997";
 
    private $pdo;
    private $stmt;

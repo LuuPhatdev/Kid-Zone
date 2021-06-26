@@ -17,10 +17,7 @@ if(!isset($_SESSION['user'])){
     }
     if($_SERVER['REQUEST_METHOD']==='POST'){
         $querycheck="select name from storage";
-        $paramcheck=[
-            $_POST['category']
-        ];
-        $check=$db->EditDataParam($querycheck,$paramcheck);
+        $check=$db->EditData($querycheck);
         $okay=1;
         while($rowcheck=$check->fetch(PDO::FETCH_ASSOC)){
             if($rowcheck['name']===$_POST['ename']){
