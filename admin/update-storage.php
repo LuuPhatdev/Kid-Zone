@@ -16,7 +16,7 @@ if(!isset($_SESSION['user'])){
         $stmt=$db->EditData($query);
     }
     if($_SERVER['REQUEST_METHOD']==='POST'){
-        $querycheck="select name from storage where id_c=?";
+        $querycheck="select name from storage";
         $paramcheck=[
             $_POST['category']
         ];
