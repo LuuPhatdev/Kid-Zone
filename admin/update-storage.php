@@ -16,19 +16,21 @@ if(!isset($_SESSION['user'])){
         $stmt=$db->EditData($query);
     }
     if($_SERVER['REQUEST_METHOD']==='POST'){
-        $querycheck="select name from storage";
-        $check=$db->EditData($querycheck);
-        $okay=1;
-        while($rowcheck=$check->fetch(PDO::FETCH_ASSOC)){
-            if($rowcheck['name']===$_POST['ename']){
-                $okay--;
-                break;
+        if($row['name']!==$_POST['ename']){
+            $querycheck="select name from storage";
+            $check=$db->EditData($querycheck);
+            $okay=1;
+            while($rowcheck=$check->fetch(PDO::FETCH_ASSOC)){
+                if($rowcheck['name']===$_POST['ename']){
+                    $okay--;
+                    break;
+                }
             }
         }
         if(isset($_POST['update'])){
             if ($_POST['ename']===""){
                 Message::ShowMessage("please enter Storage's name.");
-            }elseif($okay!=1){
+            }elseif(isset($okay) && $okay!=1 && $row['name']!==$_POST['ename']){
                 Message::ShowMessage("there is an exist name in storage");
             }elseif($_POST['active']==="0"){
                 $queryactive="select count(*) from file f join storage sr on sr.id_e=f.id_e where f.active=1 and f.id_e=?";
