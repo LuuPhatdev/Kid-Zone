@@ -81,7 +81,7 @@
                                 $i = 0;
                                 while ($i < 3) {
                                     ?>
-                                    <div class="col"><input class="button btn btn-info text-black" type="button"
+                                    <div class="col"><input class="button btn btn-info text-black" type="button" style="width: 200px; height: 100px; font-size: 25px;"
                                                             name="answers"
                                                             value="<?php echo $arr[$question[$i]]; ?>"
                                                             data-bs-toggle="modal"
