@@ -24,15 +24,15 @@
                             $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
                             if (empty($row)) {
-                                Message::ShowMessage("wrong username or password");
+                                Message::ShowMessage("wrong username");
                             } else {
-                                if ($row['password'] === $_POST['password']) {
+                                if (password_verify($_POST['password'], $row['password'])) {
                                     $_SESSION['user'] = $_POST['user_name'];
                                     $_SESSION['login'] = "log_in";
                                     //dia chi cua show luu tru de o day
                                     header("Location: category-show.php");
                                 } else {
-                                    Message::ShowMessage("wrong username or password");
+                                    Message::ShowMessage("wrong password");
                                 }
                             }
                     }
@@ -53,7 +53,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Document</title>
-    <link rel="stylesheet" type="text/css" href="css/login.css">
+    <link rel="stylesheet" type="text/css" href="css/login.css?v=2">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+          integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
 </head>
 <body>
 <div class="main">

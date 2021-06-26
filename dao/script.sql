@@ -7,7 +7,7 @@ create table admin
     id        int auto_increment
         primary key,
     user_name varchar(15) not null,
-    password  varchar(15) not null,
+    password  varchar(100) not null,
     constraint user
         unique (user_name)
 );

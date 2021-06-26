@@ -12,16 +12,32 @@ if(!isset($_SESSION['user'])){
             if(!isset($_POST['category'])){
                 Message::ShowMessage("please choose category to insert into.");
             }else{
-                $queryadd="insert into storage (id_c, name, description, active) values (?,?,?,?)";
-                $paramadd=[
-                    $_POST['category'],
-                    $_POST['ename'],
-                    $_POST['description'],
-                    1
+                $query="select name from storage where id_c = ?";
+                $param=[
+                    $_POST['category']
                 ];
-                $db->EditDataParam($queryadd,$paramadd);
-                Message::ShowMessage("Added completed");
-                header("Location: show-storage.php");
+                $check=$db->EditDataParam($query,$param);
+                $okay=1;
+                while($rowcheck=$check->fetch(PDO::FETCH_ASSOC)){
+                    if($rowcheck['name']==$_POST['ename']){
+                        $okay=0;
+                        break;
+                    }
+                }
+                if($okay<1){
+                    Message::ShowMessage("there is an exist name in storage");
+                }else{
+                    $queryadd="insert into storage (id_c, name, description, active) values (?,?,?,?)";
+                    $paramadd=[
+                        $_POST['category'],
+                        $_POST['ename'],
+                        $_POST['description'],
+                        1
+                    ];
+                    $db->EditDataParam($queryadd,$paramadd);
+                    Message::ShowMessage("Added completed");
+                    header("Location: show-storage.php");
+                }
             }
         }
     }

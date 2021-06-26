@@ -46,10 +46,11 @@
             }
 
 //          insert to db
+            $pawword_hashed=password_hash($_POST['password'], PASSWORD_DEFAULT);
             $query = "insert into admin (user_name, password) values (?,?)";
             $params = [
                 $_POST['user_name'],
-                $_POST['password']
+                $pawword_hashed
             ];
 
             $db->EditDataParam($query, $params);
