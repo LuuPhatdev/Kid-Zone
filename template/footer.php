@@ -35,8 +35,7 @@
             <div class="get-in-touch">
                 <h3>Get In Touch</h3>
                 <div class="description">
-                    <p>Lorem ipsum dolor sit amet, consectetur
-                        adipisicing elit sed do eiusmod.</p>
+                    <p>You can get in touch with us to find out more about Kids-Zone and our projects.</p>
                 </div>
                 <div class="search-mail">
                     <input type="text" placeholder="Enter your email">
