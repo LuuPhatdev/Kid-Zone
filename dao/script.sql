@@ -1,6 +1,8 @@
 drop table file;
 drop table storage;
 drop table category;
+drop table admin;
+
 
 create table admin
 (
